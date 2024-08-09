@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Nodes.Tiles;
 using Pathfinding._Scripts.Grid.Scriptables;
@@ -51,7 +52,8 @@ namespace Pathfinding._Scripts.Grid
 
             foreach (var tile in tiles.Values) tile.CacheNeighbors();
 
-            NodeBase.OnMoveTile += TileSelected;
+            NodeBase.OnMoveTile += TileMoved;
+            NodeBase.OnTeleportTile += TileTeleported;
             NodeBase.OnSelectTile += TileMapped;
             NodeBase.OnUnselectTile += TileUnselected;
         }
@@ -84,9 +86,13 @@ namespace Pathfinding._Scripts.Grid
             }
         }
 
-        private void OnDestroy() => NodeBase.OnMoveTile -= TileSelected;
+        private void OnDestroy()
+        {
+            NodeBase.OnMoveTile -= TileMoved;
+            NodeBase.OnTeleportTile -= TileTeleported;
+        }
 
-        private void TileSelected(NodeBase nodeBase)
+        private void TileMoved(NodeBase nodeBase)
         {
 
             _goalNode = nodeBase;
@@ -101,10 +107,28 @@ namespace Pathfinding._Scripts.Grid
 
                 if (path != null && path.Count > 0)
                 {
-                    // Iniciar la corrutina de movimiento
-                    StartCoroutine(MoveUnitAlongPath(path));
+                    if (_currentUnit._team == 1)
+                        TeleportUnit();
+                    else
+                        StartCoroutine(MoveUnitAlongPath(path));
                 }
             }
+
+            ResetReachebleNodes();
+        }
+
+        private void TileTeleported(NodeBase nodeBase)
+        {
+
+            _goalNode = nodeBase;
+
+            foreach (var t in tiles.Values) t.RevertTile();
+
+            _isUnitMoving = true;
+
+            List<NodeBase> path = Pathfinding.FindPath(_currentNode, _goalNode);
+
+            TeleportUnit();
 
             ResetReachebleNodes();
         }
@@ -116,14 +140,25 @@ namespace Pathfinding._Scripts.Grid
 
             var unitMover = _currentUnit.GetComponent<UnitMover>();
 
-            _currentUnit.transform.position = _goalNode.transform.position;
             _currentNode._tileUnit = null;
             _currentNode = _goalNode;
             _currentNode._tileUnit = _currentUnit;
             _currentNode._tileUnit._actualNode = _currentNode;
 
-            yield return StartCoroutine(unitMover.MoveAlongPath(path, 100f));
+            yield return StartCoroutine(unitMover.MoveAlongPath(path, 25f));
 
+            _isUnitMoving = false;
+        }
+
+        public void TeleportUnit()
+        {
+            var unitMover = _currentUnit.GetComponent<UnitMover>();
+
+            _currentUnit.transform.position = _goalNode.transform.position;
+            _currentNode._tileUnit = null;
+            _currentNode = _goalNode;
+            _currentNode._tileUnit = _currentUnit;
+            _currentNode._tileUnit._actualNode = _currentNode;
             _isUnitMoving = false;
         }
 

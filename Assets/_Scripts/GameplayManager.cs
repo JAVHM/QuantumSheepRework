@@ -74,7 +74,7 @@ public class GameplayManager : MonoBehaviour
         }
         else
         {
-            node.NodeIsMoved();
+            node.NodeIsTeleported();
         }
         _isSelected = false;
     }

@@ -24,6 +24,7 @@ namespace Nodes.Tiles
         private Color _defaultColor;
 
         public static event Action<NodeBase> OnMoveTile;
+        public static event Action<NodeBase> OnTeleportTile;
         public static event Action<NodeBase> OnSelectTile;
         public static event Action<NodeBase> OnUnselectTile;
 
@@ -45,6 +46,12 @@ namespace Nodes.Tiles
         {
             GridManager.Instance._isTileMoved = false;
             OnMoveTile?.Invoke(this);
+        }
+
+        public void NodeIsTeleported()
+        {
+            GridManager.Instance._isTileMoved = false;
+            OnTeleportTile?.Invoke(this);
         }
 
         public void NodeIsSelected()
