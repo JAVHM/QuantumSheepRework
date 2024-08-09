@@ -49,9 +49,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _renderer: {fileID: 5059227038317764067}
   _actualNode: {fileID: 0}
-  _sprite: {fileID: 21300000, guid: d295957c79d125a4ea20870f64cde788, type: 3}
+  _sprite: {fileID: 21300000, guid: 96905eeec77649241b7da2750dfb29a6, type: 3}
   _isNpc: 1
-  _movements: 1
+  _movements: 20
   _team: 2
 --- !u!114 &6304344872348161565
 MonoBehaviour:

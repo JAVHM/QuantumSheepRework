@@ -153,8 +153,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 5441756845999417297, guid: f779211c4413df540a96697ec9d4124b, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6701998894798925630, guid: f779211c4413df540a96697ec9d4124b, type: 3}
       insertIndex: -1
@@ -172,6 +171,39 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 2576301793123684555, guid: f779211c4413df540a96697ec9d4124b, type: 3}
   m_PrefabInstance: {fileID: 3454592665964645966}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1992317510482207829 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3771500262597536283, guid: f779211c4413df540a96697ec9d4124b, type: 3}
+  m_PrefabInstance: {fileID: 3454592665964645966}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3031394508458969725 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 423479684038804531, guid: f779211c4413df540a96697ec9d4124b, type: 3}
+  m_PrefabInstance: {fileID: 3454592665964645966}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5496595117534672275 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7185204699173419997, guid: f779211c4413df540a96697ec9d4124b, type: 3}
+  m_PrefabInstance: {fileID: 3454592665964645966}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8283076038795387248 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6701998894798925630, guid: f779211c4413df540a96697ec9d4124b, type: 3}
@@ -245,6 +277,6 @@ MonoBehaviour:
   _tileWalkValue: 1
   _tileUnit: {fileID: 0}
   _isInRange: 0
-  _fCostText: {fileID: 0}
-  _gCostText: {fileID: 0}
-  _hCostText: {fileID: 0}
+  _fCostText: {fileID: 3031394508458969725}
+  _gCostText: {fileID: 1992317510482207829}
+  _hCostText: {fileID: 5496595117534672275}

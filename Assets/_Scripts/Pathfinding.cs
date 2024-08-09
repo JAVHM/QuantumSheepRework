@@ -50,12 +50,12 @@ namespace Pathfinding._Scripts
 
                     if (!inSearch || costToNeighbor < neighbor.G)
                     {
-                        // neighbor.SetG(costToNeighbor);
+                        neighbor.SetG(costToNeighbor);
                         neighbor.SetConnection(current);
 
                         if (!inSearch)
                         {
-                            // neighbor.SetH(neighbor.GetDistance(targetNode));
+                            neighbor.SetH(neighbor.GetDistance(targetNode));
                             toSearch.Add(neighbor);
                         }
                     }
@@ -88,6 +88,7 @@ namespace Pathfinding._Scripts
                 current._isInRange = true;
                 reachableNodes.Add(current);
 
+                Debug.Log(current.Neighbors.Where(t => t._isWalkable && t._tileUnit == null));
                 foreach (var neighbor in current.Neighbors.Where(t => t._isWalkable && t._tileUnit == null))
                 {
                     var costToNeighbor = currentCost + neighbor._tileWalkValue;
@@ -257,12 +258,12 @@ namespace Pathfinding._Scripts
 
                     if (!inSearch || costToNeighbor < neighbor.G)
                     {
-                        // neighbor.SetG(costToNeighbor);
+                        neighbor.SetG(costToNeighbor);
                         neighbor.SetConnection(current);
 
                         if (!inSearch)
                         {
-                            // neighbor.SetH(neighbor.GetDistance(targetNode));
+                            neighbor.SetH(neighbor.GetDistance(targetNode));
                             toSearch.Add(neighbor);
                             neighbor.SetColor(OpenColor);
                         }

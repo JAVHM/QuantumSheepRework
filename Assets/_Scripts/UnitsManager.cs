@@ -12,14 +12,9 @@ public class UnitsManager : MonoBehaviour
     public List<Unit> npcUnits = new List<Unit>();
 
     void Awake() => Instance = this;
-    private void Start()
+    void Update()
     {
-        GameplayManager.OnPlayerMove += FollowPlayer;
-    }
-
-    void FollowPlayer()
-    {
-        if (!GridManager.Instance._isNpcTurn && playerUnits.Count != 0)
+        if (Input.GetKeyDown(KeyCode.Space) && !GridManager.Instance._isNpcTurn && playerUnits.Count != 0)
         {
             StartCoroutine(Test());
         }
@@ -28,11 +23,11 @@ public class UnitsManager : MonoBehaviour
     IEnumerator Test()
     {
         GridManager.Instance._isNpcTurn = true;
-        Unit[] units = FindObjectsOfType<Unit>(); 
+        Unit[] units = FindObjectsOfType<Unit>();
 
-        foreach (Unit unit in npcUnits) 
+        foreach (Unit unit in npcUnits)
         {
-            if(playerUnits.Count != 0)
+            if (playerUnits.Count != 0)
             {
                 NodeBase node = unit._actualNode;
                 (NodeBase targetNode, List<NodeBase> path, var costs) = Pathfinding._Scripts.Pathfinding.FindNearestEnemyNode(node, units, unit._team);
@@ -48,7 +43,7 @@ public class UnitsManager : MonoBehaviour
                         else
                         {
                             int index = 0;
-                            foreach(int cost in costs)
+                            foreach (int cost in costs)
                             {
                                 // print(cost + " > " + unit._movements + "index: " + (index + 1));
                                 if (cost > unit._movements)

@@ -7,8 +7,10 @@ using Pathfinding._Scripts.Units;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Pathfinding._Scripts.Grid {
-    public class GridManager : MonoBehaviour {
+namespace Pathfinding._Scripts.Grid
+{
+    public class GridManager : MonoBehaviour
+    {
         public static GridManager Instance;
 
         [SerializeField] private Unit _unitPrefab;
@@ -34,7 +36,7 @@ namespace Pathfinding._Scripts.Grid {
 
         void Awake() => Instance = this;
 
-        private void Start() 
+        private void Start()
         {
             if (_customGrid != null)
             {
@@ -56,14 +58,14 @@ namespace Pathfinding._Scripts.Grid {
 
         void SpawnUnits()
         {
-            foreach(Unit unit in _unitList)
+            foreach (Unit unit in _unitList)
             {
                 NodeBase randomNode = tiles.Where(t => t.Value._isWalkable && t.Value._tileUnit == null).OrderBy(t => Random.value).First().Value;
-                Unit instanceUnit = Instantiate(unit, randomNode.Coords.Pos, Quaternion.identity, GameObject.Find("Grid").transform);
+                Unit instanceUnit = Instantiate(unit, randomNode.Coords.Pos, Quaternion.identity);
                 instanceUnit.Init(unit._sprite);
                 randomNode._tileUnit = instanceUnit;
                 instanceUnit._actualNode = randomNode;
-                if(instanceUnit._team == 1)
+                if (instanceUnit._team == 1)
                     UnitsManager.Instance.playerUnits.Add(instanceUnit);
                 else
                     UnitsManager.Instance.npcUnits.Add(instanceUnit);
@@ -94,7 +96,7 @@ namespace Pathfinding._Scripts.Grid {
             if (Pathfinding.IsReachableNodes(_currentNode, _currentNode._tileUnit._movements).Contains(_goalNode) || _isNpcTurn)
             {
                 _isUnitMoving = true;
-                
+
                 List<NodeBase> path = Pathfinding.FindPath(_currentNode, _goalNode);
 
                 if (path != null && path.Count > 0)
@@ -121,7 +123,7 @@ namespace Pathfinding._Scripts.Grid {
             _currentNode._tileUnit._actualNode = _currentNode;
 
             yield return StartCoroutine(unitMover.MoveAlongPath(path, 100f));
-            
+
             _isUnitMoving = false;
         }
 
@@ -162,24 +164,24 @@ namespace Pathfinding._Scripts.Grid {
 
         public void TestAreaAttack(NodeBase nodeBase)
         {
-            if(_selectCenterNode == null)
+            if (_selectCenterNode == null)
             {
                 _selectCenterNode = nodeBase;
                 selectableNodes = Pathfinding.MarkNodesInRange(nodeBase, 3);
             }
-            if(_selectCenterNode != nodeBase)
+            if (_selectCenterNode != nodeBase)
             {
                 print("New node");
                 ResetSelectableNodes();
                 _selectCenterNode = nodeBase;
                 selectableNodes = Pathfinding.MarkNodesInRange(nodeBase, 3);
             }
-                
+
         }
 
         private void ResetReachebleNodes()
         {
-            foreach(NodeBase n in reacheableNodes)
+            foreach (NodeBase n in reacheableNodes)
             {
                 n._isInRange = false;
             }
@@ -195,10 +197,12 @@ namespace Pathfinding._Scripts.Grid {
 
         public NodeBase GetTileAtPosition(Vector2 pos) => tiles.TryGetValue(pos, out var tile) ? tile : null;
 
-        private void OnDrawGizmos() {
+        private void OnDrawGizmos()
+        {
             if (!Application.isPlaying || !_drawConnections) return;
             Gizmos.color = Color.red;
-            foreach (var tile in tiles) {
+            foreach (var tile in tiles)
+            {
                 if (tile.Value.Connection == null) continue;
                 Gizmos.DrawLine((Vector3)tile.Key + new Vector3(0, 0, -1), (Vector3)tile.Value.Connection.Coords.Pos + new Vector3(0, 0, -1));
             }

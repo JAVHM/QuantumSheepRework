@@ -1,19 +1,12 @@
 using Nodes.Tiles;
 using Pathfinding._Scripts.Grid;
-using Pathfinding._Scripts.Units;
 using UnityEngine;
-using System.Collections;
-using System;
 
 public class GameplayManager : MonoBehaviour
 {
     private bool _isSelected = false;
-    public Unit _currentUnit;
     private GridManager _gridManager;
     private Camera _mainCamera;
-    private bool _canHandleInput = true;
-    private float _inputDelay = 0.15f;
-    public static event Action OnPlayerMove;
 
     private void Awake()
     {
@@ -21,85 +14,82 @@ public class GameplayManager : MonoBehaviour
         _mainCamera = Camera.main;
     }
 
-    private void Start()
-    {
-        _currentUnit = UnitsManager.Instance.playerUnits[0];
-    }
-
     private void Update()
     {
-        if (!_gridManager._isNpcTurn && !_gridManager._isUnitMoving && _canHandleInput && _currentUnit != null)
+        if (!_gridManager._isNpcTurn && !_gridManager._isUnitMoving && Input.GetMouseButtonDown(0))
         {
-            HandleInput();
+            HandleMapClick();
         }
     }
 
-    private void HandleInput()
+    private void HandleMapClick()
     {
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            HandleMapClick(3);
-            StartCoroutine(InputCooldown());
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            HandleMapClick(1);
-            StartCoroutine(InputCooldown());
-        }
-        else if (Input.GetKey(KeyCode.UpArrow))
-        {
-            HandleMapClick(0);
-            StartCoroutine(InputCooldown());
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            HandleMapClick(2);
-            StartCoroutine(InputCooldown());
-        }
-    }
+        NodeBase node = GetNodeUnderMouse();
 
-    private IEnumerator InputCooldown()
-    {
-        _canHandleInput = false;
-        yield return new WaitForSeconds(_inputDelay);
-        _canHandleInput = true;
-    }
-
-    private void HandleMapClick(int direction)
-    {
-        NodeBase node = _currentUnit._actualNode;
-
-        if (node._tileUnit != null && node._tileUnit._team == 1)
+        if (node != null)
         {
-            SelectNode(node);
-            if (node._isWalkable)
+            if (node._tileUnit != null && node._tileUnit._team == 1)
             {
-                MoveToNeighbor(node, direction);
+                HandleUnitSelection(node);
+            }
+            else if (_isSelected)
+            {
+                HandleNodeInteraction(node);
             }
         }
     }
 
-    private void SelectNode(NodeBase node)
+    private void HandleUnitSelection(NodeBase node)
     {
         if (!_isSelected)
         {
             node.NodeIsSelected();
             _isSelected = true;
         }
+        else
+        {
+            _gridManager._currentNode.NodeIsUnselected();
+            node.NodeIsSelected();
+        }
     }
 
-    private void MoveToNeighbor(NodeBase node, int direction)
+    private void HandleNodeInteraction(NodeBase node)
     {
-        if (node.Neighbors[direction]._tileUnit != null)
+        if (node._isWalkable && node._isInRange)
         {
-            node.Neighbors[direction]._tileUnit.GetComponent<Health>().TakeDamage(10);
+            HandleWalkableNode(node);
+        }
+        else if (_gridManager._currentNode.Neighbors.Contains(node) && node._tileUnit != null)
+        {
+            node._tileUnit.GetComponent<Health>().TakeDamage(10);
+            DeselectNode(node);
+        }
+    }
+
+    private void HandleWalkableNode(NodeBase node)
+    {
+        if (_gridManager._currentNode == node || node._tileUnit != null)
+        {
+            node.NodeIsUnselected();
         }
         else
         {
-            node.Neighbors[direction].NodeIsMoved();
+            node.NodeIsMoved();
         }
         _isSelected = false;
+    }
 
-        OnPlayerMove?.Invoke();
+    private void DeselectNode(NodeBase node)
+    {
+        node.NodeIsUnselected();
+        _isSelected = false;
+    }
+
+    private NodeBase GetNodeUnderMouse()
+    {
+        Vector2 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+
+        return hit.collider != null ? hit.collider.gameObject.GetComponent<NodeBase>() : null;
     }
 }
