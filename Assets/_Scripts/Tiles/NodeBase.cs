@@ -34,6 +34,9 @@ namespace Nodes.Tiles
         {
             _isWalkable = walkable;
 
+            if (walkable == false)
+                gameObject.GetComponent<Collider2D>().enabled = false;
+
             _renderer.color = walkable ? _walkableColor : _obstacleColor;
 
             _defaultColor = _renderer.color;

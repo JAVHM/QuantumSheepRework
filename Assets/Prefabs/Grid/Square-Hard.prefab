@@ -244,6 +244,7 @@ MonoBehaviour:
   _renderer: {fileID: 5181567227136470115}
   _tileWalkValue: 3
   _tileUnit: {fileID: 0}
+  _isWalkable: 0
   _isInRange: 0
   _fCostText: {fileID: 7046096723825588379}
   _gCostText: {fileID: 5800439119624246963}
