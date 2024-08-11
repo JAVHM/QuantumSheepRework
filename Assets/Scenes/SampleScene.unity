@@ -263,6 +263,11 @@ MonoBehaviour:
   launchDirection: {x: 0, y: -1}
   launchSpeed: 10
   gizmoLineLength: {x: 0, y: -15}
+  cards:
+  - {fileID: 11400000, guid: 29480dda556b1034789351f98fdd9cb1, type: 2}
+  - {fileID: 11400000, guid: 09dbba2b54307784a9f517d99697d523, type: 2}
+  - {fileID: 11400000, guid: 8461df3085a46874388366888bea3e3e, type: 2}
+  - {fileID: 11400000, guid: 444b94ef5404c28438767bc68bd9caa2, type: 2}
 --- !u!4 &370498929
 Transform:
   m_ObjectHideFlags: 0
@@ -328,6 +333,11 @@ MonoBehaviour:
   launchDirection: {x: 0, y: -1}
   launchSpeed: 10
   gizmoLineLength: {x: 0, y: -15}
+  cards:
+  - {fileID: 11400000, guid: 29480dda556b1034789351f98fdd9cb1, type: 2}
+  - {fileID: 11400000, guid: 09dbba2b54307784a9f517d99697d523, type: 2}
+  - {fileID: 11400000, guid: 8461df3085a46874388366888bea3e3e, type: 2}
+  - {fileID: 11400000, guid: 444b94ef5404c28438767bc68bd9caa2, type: 2}
 --- !u!1 &1292398968
 GameObject:
   m_ObjectHideFlags: 0

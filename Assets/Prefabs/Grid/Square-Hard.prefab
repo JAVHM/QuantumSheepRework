@@ -108,6 +108,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Square-Hard
       objectReference: {fileID: 0}
+    - target: {fileID: 5799129059999396217, guid: f779211c4413df540a96697ec9d4124b, type: 3}
+      propertyPath: m_TagString
+      value: Tile
+      objectReference: {fileID: 0}
     - target: {fileID: 6701998894798925630, guid: f779211c4413df540a96697ec9d4124b, type: 3}
       propertyPath: m_RootOrder
       value: 0
