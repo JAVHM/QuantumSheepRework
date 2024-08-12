@@ -6,16 +6,9 @@ public class DraggableObjectScript : MonoBehaviour
     public CardSO cardData;
     public DragControllerScript DragControllerScript;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void Init(CardSO cardSO)
     {
-        if (other.CompareTag("Tile"))
-        {
-            Debug.Log("Tile");
-            if (other.GetComponent<NodeBase>()._tileUnit != null && other.GetComponent<NodeBase>()._tileUnit.gameObject.tag == "Sheep")
-            {
-                Debug.Log("Sheep");
-                DragControllerScript.DestroyBoth();
-            }
-        }
+        cardData = cardSO;
+        gameObject.GetComponent<SpriteRenderer>().sprite = cardData.sprite;
     }
 }
