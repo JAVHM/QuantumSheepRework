@@ -1,5 +1,6 @@
 using Nodes.Tiles;
 using Pathfinding._Scripts.Grid;
+using System;
 using UnityEngine;
 
 public class GameplayManager : MonoBehaviour
@@ -45,7 +46,7 @@ public class GameplayManager : MonoBehaviour
 
     public NodeBase FindTile(Vector2 originPos, CardSO card)
     {
-        Vector2 addedPos = card.movement * Random.Range(card.multiplierMin, card.multiplierMax);
+        Vector2 addedPos = card.movement * UnityEngine.Random.Range(card.multiplierMin, card.multiplierMax + 1);
         // Realizar un OverlapPoint en la posición
         Collider2D hitCollider = Physics2D.OverlapPoint(originPos + addedPos);
 

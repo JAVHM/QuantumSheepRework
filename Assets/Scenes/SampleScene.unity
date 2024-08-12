@@ -198,7 +198,7 @@ PrefabInstance:
     - target: {fileID: 7341151215538218331, guid: 3e2b3382004a71946925a3e0938c28e2, type: 3}
       propertyPath: _unitList.Array.data[1]
       value: 
-      objectReference: {fileID: 2363439576862928994, guid: ec89a5531ade70441b2a3952f4bbcdf6, type: 3}
+      objectReference: {fileID: 1861827098908198204, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}
     - target: {fileID: 7341151215538218331, guid: 3e2b3382004a71946925a3e0938c28e2, type: 3}
       propertyPath: _unitList.Array.data[2]
       value: 
@@ -206,7 +206,7 @@ PrefabInstance:
     - target: {fileID: 7341151215538218331, guid: 3e2b3382004a71946925a3e0938c28e2, type: 3}
       propertyPath: _unitList.Array.data[3]
       value: 
-      objectReference: {fileID: 1861827098908198204, guid: ff1baa9d98e6c1740847175b765ededf, type: 3}
+      objectReference: {fileID: 2363439576862928994, guid: ec89a5531ade70441b2a3952f4bbcdf6, type: 3}
     - target: {fileID: 7341151215538218331, guid: 3e2b3382004a71946925a3e0938c28e2, type: 3}
       propertyPath: _unitList.Array.data[4]
       value: 
@@ -272,6 +272,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 95e2c36e6c65edb44ba957ab43bec4e3, type: 2}
   - {fileID: 11400000, guid: 287ba616ddc6c0d45b326ea7b2776188, type: 2}
   - {fileID: 11400000, guid: a145700bd38b16f4ca4b4652ecbd622d, type: 2}
+  - {fileID: 11400000, guid: b5767db169235db40a711d1aadc204dc, type: 2}
+  - {fileID: 11400000, guid: 72c2fafebac0fa04c9d0d7259605c43a, type: 2}
+  - {fileID: 11400000, guid: 32d1d3423df2cd349a81dac8b1a468d1, type: 2}
+  - {fileID: 11400000, guid: 71730083a3f20ed4e85720be7dbffbce, type: 2}
 --- !u!4 &370498929
 Transform:
   m_ObjectHideFlags: 0
@@ -346,6 +350,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 95e2c36e6c65edb44ba957ab43bec4e3, type: 2}
   - {fileID: 11400000, guid: 287ba616ddc6c0d45b326ea7b2776188, type: 2}
   - {fileID: 11400000, guid: a145700bd38b16f4ca4b4652ecbd622d, type: 2}
+  - {fileID: 11400000, guid: b5767db169235db40a711d1aadc204dc, type: 2}
+  - {fileID: 11400000, guid: 72c2fafebac0fa04c9d0d7259605c43a, type: 2}
+  - {fileID: 11400000, guid: 32d1d3423df2cd349a81dac8b1a468d1, type: 2}
+  - {fileID: 11400000, guid: 71730083a3f20ed4e85720be7dbffbce, type: 2}
 --- !u!1 &1292398968
 GameObject:
   m_ObjectHideFlags: 0

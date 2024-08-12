@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectSpawner : MonoBehaviour
@@ -19,17 +20,22 @@ public class ObjectSpawner : MonoBehaviour
     {
         for (int i = 0; i < numberOfObjects; i++)
         {
-            GameObject obj = Instantiate(prefab, transform.position, Quaternion.identity);
-
-            DragControllerScript dragControl = obj.GetComponent<DragControllerScript>();
-            dragControl.Init(cards[Random.Range(0, cards.Length)]);
-
-            Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
-            if (rb != null)
-            {
-                rb.velocity = launchDirection * launchSpeed;
-            }
+            SpawnObject();
             yield return new WaitForSeconds(spawnInterval);
+        }
+    }
+
+    public void SpawnObject()
+    {
+        GameObject obj = Instantiate(prefab, transform.position, Quaternion.identity);
+
+        DragControllerScript dragControl = obj.GetComponent<DragControllerScript>();
+        dragControl.Init(cards[Random.Range(0, cards.Length)], this);
+
+        Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.velocity = launchDirection * launchSpeed;
         }
     }
 

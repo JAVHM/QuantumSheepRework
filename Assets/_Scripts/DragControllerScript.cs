@@ -9,6 +9,7 @@ public class DragControllerScript : MonoBehaviour
     private GameObject currentDraggable;
     private bool isDragging = false;
     public CardSO cardData;
+    private ObjectSpawner objectSpawner;
 
     private void Update()
     {
@@ -42,6 +43,7 @@ public class DragControllerScript : MonoBehaviour
             if (currentDraggable != null)
             {
                 GameplayManager.instance.Check(currentDraggable);
+                objectSpawner.SpawnObject();
                 Destroy(currentDraggable);
                 Destroy(this.gameObject);
                 currentDraggable = null;
@@ -81,9 +83,10 @@ public class DragControllerScript : MonoBehaviour
         Destroy(this.gameObject, 0.5f);
     }
 
-    public void Init(CardSO cardSO)
+    public void Init(CardSO cardSO, ObjectSpawner objSpawner)
     {
         cardData = cardSO;
+        objectSpawner = objSpawner;
         this.gameObject.GetComponent<SpriteRenderer>().sprite = cardData.sprite;
     }
 }
