@@ -1,4 +1,5 @@
 using Nodes.Tiles;
+using Pathfinding._Scripts.Grid;
 using UnityEngine;
 
 public class DragControllerScript : MonoBehaviour
@@ -41,7 +42,6 @@ public class DragControllerScript : MonoBehaviour
             if (currentDraggable != null)
             {
                 Debug.Log("A");
-                //currentDraggable.gameObject.GetComponent<CircleCollider2D>().enabled = true;
                 Check(currentDraggable);
                 Destroy(currentDraggable, 0.5f);
                 currentDraggable = null;
@@ -56,6 +56,7 @@ public class DragControllerScript : MonoBehaviour
             currentDraggable = Instantiate(draggablePrefab);
             currentDraggable.GetComponent<DraggableObjectScript>().DragControllerScript = this;
             currentDraggable.transform.position = GetMouseWorldPosition();
+            currentDraggable.GetComponent<DraggableObjectScript>().Init(cardData);
             // AudioManager.instance.Play("take energy");
         }
     }
@@ -93,8 +94,13 @@ public class DragControllerScript : MonoBehaviour
         if (collider != null)
         {
             Debug.Log("Ya hay un objeto en la posición: " + roundedPosition);
-            if (collider.gameObject.GetComponent<NodeBase>()._tileUnit != null && collider.gameObject.GetComponent<NodeBase>()._tileUnit._team == 1)
+            NodeBase currentNode = collider.gameObject.GetComponent<NodeBase>();
+            if (currentNode._tileUnit != null && currentNode._tileUnit._team == 1)
             {
+                GridManager.Instance._currentNode = currentNode;
+                GridManager.Instance._goalNode = currentNode.Neighbors[0];
+                GridManager.Instance._currentUnit = currentNode._tileUnit;
+                currentNode.Neighbors[0].NodeIsTeleported();
                 Debug.Log("Sheep");
             }
         }
