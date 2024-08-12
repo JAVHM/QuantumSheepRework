@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -98,8 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65cacb9c0e89de64ea019e303fd58211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Xmovement: {x: 0, y: 0}
-  Ymovement: {x: 0, y: 0}
+  cardData: {fileID: 0}
   DragControllerScript: {fileID: 0}
 --- !u!58 &8440436513680599125
 CircleCollider2D:

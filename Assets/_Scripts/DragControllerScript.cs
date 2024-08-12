@@ -41,9 +41,9 @@ public class DragControllerScript : MonoBehaviour
 
             if (currentDraggable != null)
             {
-                Debug.Log("A");
-                Check(currentDraggable);
-                Destroy(currentDraggable, 0.5f);
+                GameplayManager.instance.Check(currentDraggable);
+                Destroy(currentDraggable);
+                Destroy(this.gameObject);
                 currentDraggable = null;
             }
         }
@@ -79,31 +79,6 @@ public class DragControllerScript : MonoBehaviour
     public void DestroyBoth()
     {
         Destroy(this.gameObject, 0.5f);
-    }
-
-    public void Check(GameObject currentDraggable)
-    {
-        Vector3 roundedPosition = new Vector3(
-                Mathf.Round(currentDraggable.transform.position.x),
-                Mathf.Round(currentDraggable.transform.position.y),
-                Mathf.Round(currentDraggable.transform.position.z)
-            );
-
-        Collider2D collider = Physics2D.OverlapPoint(roundedPosition, 9);
-        currentDraggable.transform.position = roundedPosition;
-        if (collider != null)
-        {
-            Debug.Log("Ya hay un objeto en la posición: " + roundedPosition);
-            NodeBase currentNode = collider.gameObject.GetComponent<NodeBase>();
-            if (currentNode._tileUnit != null && currentNode._tileUnit._team == 1)
-            {
-                GridManager.Instance._currentNode = currentNode;
-                GridManager.Instance._goalNode = currentNode.Neighbors[0];
-                GridManager.Instance._currentUnit = currentNode._tileUnit;
-                currentNode.Neighbors[0].NodeIsTeleported();
-                Debug.Log("Sheep");
-            }
-        }
     }
 
     public void Init(CardSO cardSO)

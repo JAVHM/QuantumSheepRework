@@ -6,90 +6,57 @@ public class GameplayManager : MonoBehaviour
 {
     private bool _isSelected = false;
     private GridManager _gridManager;
-    private Camera _mainCamera;
+    public static GameplayManager instance;
 
     private void Awake()
     {
+        instance = this;
         _gridManager = GridManager.Instance;
-        _mainCamera = Camera.main;
     }
 
-    private void Update()
+    public void Check(GameObject currentDraggable)
     {
-        if (!_gridManager._isNpcTurn && !_gridManager._isUnitMoving && Input.GetMouseButtonDown(0))
-        {
-            HandleMapClick();
-        }
-    }
+        Vector3 roundedPosition = new Vector3(
+                Mathf.Round(currentDraggable.transform.position.x),
+                Mathf.Round(currentDraggable.transform.position.y),
+                Mathf.Round(currentDraggable.transform.position.z)
+            );
 
-    private void HandleMapClick()
-    {
-        NodeBase node = GetNodeUnderMouse();
-
-        if (node != null)
+        Collider2D collider = Physics2D.OverlapPoint(roundedPosition, 9);
+        currentDraggable.transform.position = roundedPosition;
+        CardSO cardSO = currentDraggable.GetComponent<DraggableObjectScript>().cardData;
+        if (collider != null)
         {
-            if (node._tileUnit != null && node._tileUnit._team == 1)
+            Debug.Log("Ya hay un objeto en la posición: " + roundedPosition);
+            NodeBase currentNode = collider.gameObject.GetComponent<NodeBase>();
+            if (currentNode._tileUnit != null && currentNode._tileUnit._team == 1)
             {
-                HandleUnitSelection(node);
+                GridManager.Instance._currentNode = currentNode;
+                NodeBase goalNode = FindTile(currentNode.Coords.Pos, cardSO);
+                GridManager.Instance._goalNode = goalNode;
+                if(goalNode != null)
+                {
+                    GridManager.Instance._currentUnit = currentNode._tileUnit;
+                    goalNode.NodeIsTeleported();
+                }
             }
-            else if (_isSelected)
-            {
-                HandleNodeInteraction(node);
-            }
         }
     }
 
-    private void HandleUnitSelection(NodeBase node)
+    public NodeBase FindTile(Vector2 originPos, CardSO card)
     {
-        if (!_isSelected)
-        {
-            node.NodeIsSelected();
-            _isSelected = true;
-        }
-        else
-        {
-            _gridManager._currentNode.NodeIsUnselected();
-            node.NodeIsSelected();
-        }
-    }
+        Vector2 addedPos = card.movement * Random.Range(card.multiplierMin, card.multiplierMax);
+        // Realizar un OverlapPoint en la posición
+        Collider2D hitCollider = Physics2D.OverlapPoint(originPos + addedPos);
 
-    private void HandleNodeInteraction(NodeBase node)
-    {
-        if (node._isWalkable && node._isInRange)
+        // Si se encuentra un objeto en esa posición
+        if (hitCollider != null)
         {
-            HandleWalkableNode(node);
+            Debug.Log("Objeto encontrado: " + hitCollider.gameObject.name);
+            if (hitCollider.gameObject.GetComponent<NodeBase>() != null)
+                return hitCollider.gameObject.GetComponent<NodeBase>();
         }
-        else if (_gridManager._currentNode.Neighbors.Contains(node) && node._tileUnit != null)
-        {
-            node._tileUnit.GetComponent<Health>().TakeDamage(10);
-            DeselectNode(node);
-        }
-    }
 
-    private void HandleWalkableNode(NodeBase node)
-    {
-        if (_gridManager._currentNode == node || node._tileUnit != null)
-        {
-            node.NodeIsUnselected();
-        }
-        else
-        {
-            node.NodeIsTeleported();
-        }
-        _isSelected = false;
-    }
-
-    private void DeselectNode(NodeBase node)
-    {
-        node.NodeIsUnselected();
-        _isSelected = false;
-    }
-
-    private NodeBase GetNodeUnderMouse()
-    {
-        Vector2 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
-
-        return hit.collider != null ? hit.collider.gameObject.GetComponent<NodeBase>() : null;
+        return null;
     }
 }

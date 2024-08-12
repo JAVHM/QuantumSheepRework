@@ -119,18 +119,20 @@ namespace Pathfinding._Scripts.Grid
 
         private void TileTeleported(NodeBase nodeBase)
         {
+            if(nodeBase != null && nodeBase._isWalkable)
+            {
+                _goalNode = nodeBase;
 
-            _goalNode = nodeBase;
+                foreach (var t in tiles.Values) t.RevertTile();
 
-            foreach (var t in tiles.Values) t.RevertTile();
+                _isUnitMoving = true;
 
-            _isUnitMoving = true;
+                List<NodeBase> path = Pathfinding.FindPath(_currentNode, _goalNode);
 
-            List<NodeBase> path = Pathfinding.FindPath(_currentNode, _goalNode);
+                TeleportUnit();
 
-            TeleportUnit();
-
-            ResetReachebleNodes();
+                ResetReachebleNodes();
+            }
         }
 
 
