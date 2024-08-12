@@ -23,7 +23,7 @@ namespace Pathfinding._Scripts.Grid
         public List<Unit> _unitList = new List<Unit>();
 
         public NodeBase _currentNode, _goalNode, _selectCenterNode;
-        private Unit _currentUnit;
+        public Unit _currentUnit;
 
         public bool _isTileMoved = false;
         public bool _isNpcTurn = false;
@@ -136,7 +136,7 @@ namespace Pathfinding._Scripts.Grid
 
         private IEnumerator MoveUnitAlongPath(List<NodeBase> path)
         {
-            path.RemoveAt(0);
+            // path.RemoveAt(0);
 
             var unitMover = _currentUnit.GetComponent<UnitMover>();
 
@@ -152,8 +152,6 @@ namespace Pathfinding._Scripts.Grid
 
         public void TeleportUnit()
         {
-            var unitMover = _currentUnit.GetComponent<UnitMover>();
-
             _currentUnit.transform.position = _goalNode.transform.position;
             _currentNode._tileUnit = null;
             _currentNode = _goalNode;
@@ -216,10 +214,11 @@ namespace Pathfinding._Scripts.Grid
 
         private void ResetReachebleNodes()
         {
-            foreach (NodeBase n in reacheableNodes)
-            {
-                n._isInRange = false;
-            }
+            if (reacheableNodes != null && reacheableNodes.Count > 0)
+                foreach (NodeBase n in reacheableNodes)
+                {
+                    n._isInRange = false;
+                }
         }
 
         private void ResetSelectableNodes()
