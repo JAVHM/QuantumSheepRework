@@ -30,6 +30,7 @@ public class DragControllerScript : MonoBehaviour
         if (hit.collider != null && hit.collider.gameObject == this.gameObject)
         {
             CreateDraggableObject();
+            GameplayManager.instance.MouseDown(cardData);
             isDragging = true;
         }
     }
@@ -43,6 +44,7 @@ public class DragControllerScript : MonoBehaviour
             if (currentDraggable != null)
             {
                 GameplayManager.instance.Check(currentDraggable);
+                GameplayManager.instance.MouseUp();
                 objectSpawner.SpawnObject();
                 Destroy(currentDraggable);
                 Destroy(this.gameObject);

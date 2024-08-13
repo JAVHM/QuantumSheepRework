@@ -1,6 +1,7 @@
 using Nodes.Tiles;
 using Pathfinding._Scripts.Grid;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameplayManager : MonoBehaviour
@@ -9,10 +10,29 @@ public class GameplayManager : MonoBehaviour
     private GridManager _gridManager;
     public static GameplayManager instance;
 
+    public static Action<CardSO> onMouseDown;
+    public static Action onMouseUp;
+
     private void Awake()
     {
         instance = this;
         _gridManager = GridManager.Instance;
+    }
+
+    public void MouseDown(CardSO card)
+    {
+        if (onMouseDown != null)
+        {
+            onMouseDown(card);
+        }
+    }
+
+    public void MouseUp()
+    {
+        if (onMouseUp != null)
+        {
+            onMouseUp();
+        }
     }
 
     public void Check(GameObject currentDraggable)
@@ -25,6 +45,7 @@ public class GameplayManager : MonoBehaviour
 
         Collider2D collider = Physics2D.OverlapPoint(roundedPosition, 9);
         currentDraggable.transform.position = roundedPosition;
+
         CardSO cardSO = currentDraggable.GetComponent<DraggableObjectScript>().cardData;
         if (collider != null)
         {
@@ -35,7 +56,7 @@ public class GameplayManager : MonoBehaviour
                 GridManager.Instance._currentNode = currentNode;
                 NodeBase goalNode = FindTile(currentNode.Coords.Pos, cardSO);
                 GridManager.Instance._goalNode = goalNode;
-                if(goalNode != null)
+                if(goalNode != null && goalNode._tileUnit == null)
                 {
                     GridManager.Instance._currentUnit = currentNode._tileUnit;
                     goalNode.NodeIsTeleported();
@@ -46,9 +67,40 @@ public class GameplayManager : MonoBehaviour
 
     public NodeBase FindTile(Vector2 originPos, CardSO card)
     {
-        Vector2 addedPos = card.movement * UnityEngine.Random.Range(card.multiplierMin, card.multiplierMax + 1);
-        // Realizar un OverlapPoint en la posición
-        Collider2D hitCollider = Physics2D.OverlapPoint(originPos + addedPos);
+        HashSet<Vector2> triedPositions = new HashSet<Vector2>();
+        int attempts = 1 + card.multiplierMax - card.multiplierMin;
+
+        for (int i = 0; i < attempts; i++)
+        {
+            // Generate a possible position
+            Vector2 addedPos;
+            do
+            {
+                addedPos = card.movement * UnityEngine.Random.Range(card.multiplierMin, card.multiplierMax + 1);
+            } while (triedPositions.Contains(addedPos));  // Ensure the position is unique
+
+            // Add the position to the set of tried positions
+            triedPositions.Add(addedPos);
+
+            // Check if there is a NodeBase at the calculated position
+            Collider2D hitCollider = Physics2D.OverlapPoint(originPos + addedPos);
+
+            // If a NodeBase is found, return it
+            if (hitCollider != null && hitCollider.gameObject.GetComponent<NodeBase>() != null)
+            {
+                Debug.Log("Objeto encontrado en la posición: " + hitCollider.gameObject.name);
+                return hitCollider.gameObject.GetComponent<NodeBase>();
+            }
+        }
+
+        // If no valid NodeBase is found after all attempts, return null
+        return null;
+    }
+
+
+    public NodeBase FindTile(Vector2 originPos)
+    {
+        Collider2D hitCollider = Physics2D.OverlapPoint(originPos);
 
         // Si se encuentra un objeto en esa posición
         if (hitCollider != null)
