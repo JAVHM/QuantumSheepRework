@@ -33,13 +33,18 @@ public class UnitsManager : MonoBehaviour
                 (NodeBase targetNode, List<NodeBase> path, var costs) = Pathfinding._Scripts.Pathfinding.FindNearestEnemyNode(node, units, unit._team);
                 if (path != null)
                 {
-                    if (path.Count > 1)
+                    if (path.Count > 0)
                     {
                         yield return new WaitForSeconds(0.01f);
                         node.NodeIsSelected();
                         // yield return new WaitForSeconds(0.25f);
-                        if (costs[costs.Count - 2] <= unit._movements)
-                            path[path.Count - (path.Count - 1)].NodeIsMoved();
+                        if (costs[costs.Count - 1] <= unit._movements)
+                        {
+                            path[path.Count - path.Count]._tileUnit.GetComponent<Health>().TakeDamage(10);
+                            yield return new WaitForSeconds(0.01f);
+                            path[path.Count - path.Count].NodeIsMoved();
+                        }
+                            
                         else
                         {
                             int index = 0;
