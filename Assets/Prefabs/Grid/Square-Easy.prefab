@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3080781141401785461}
   - component: {fileID: 7518141635381878331}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Under
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,6 +92,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 867953665981411387, guid: f779211c4413df540a96697ec9d4124b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 2576301793123684555, guid: f779211c4413df540a96697ec9d4124b, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -99,6 +103,18 @@ PrefabInstance:
     - target: {fileID: 2576301793123684555, guid: f779211c4413df540a96697ec9d4124b, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3333425757089632668, guid: f779211c4413df540a96697ec9d4124b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3977660428834297457, guid: f779211c4413df540a96697ec9d4124b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5441756845999417297, guid: f779211c4413df540a96697ec9d4124b, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5441756845999417297, guid: f779211c4413df540a96697ec9d4124b, type: 3}
       propertyPath: m_IsActive
@@ -109,8 +125,16 @@ PrefabInstance:
       value: Square-Easy
       objectReference: {fileID: 0}
     - target: {fileID: 5799129059999396217, guid: f779211c4413df540a96697ec9d4124b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5799129059999396217, guid: f779211c4413df540a96697ec9d4124b, type: 3}
       propertyPath: m_TagString
       value: Tile
+      objectReference: {fileID: 0}
+    - target: {fileID: 6095748285665954760, guid: f779211c4413df540a96697ec9d4124b, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6701998894798925630, guid: f779211c4413df540a96697ec9d4124b, type: 3}
       propertyPath: m_RootOrder

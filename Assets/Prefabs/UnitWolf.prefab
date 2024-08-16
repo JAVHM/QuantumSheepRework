@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2363439576862928994}
   - component: {fileID: 6304344872348161565}
   - component: {fileID: -5977604053855726408}
-  m_Layer: 0
-  m_Name: UnitNPC
+  m_Layer: 9
+  m_Name: UnitWolf
   m_TagString: Wolf
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,6 +53,9 @@ MonoBehaviour:
   _isNpc: 1
   _movements: 1
   _team: 2
+  _canWalkLayerMask:
+    serializedVersion: 2
+    m_Bits: 3063
 --- !u!114 &6304344872348161565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8849155137897802797}
   - component: {fileID: 5059227038317764067}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}

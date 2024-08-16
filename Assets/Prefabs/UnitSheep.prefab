@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2812077844808222559}
   - component: {fileID: 4545883318976824305}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,8 +97,8 @@ GameObject:
   - component: {fileID: 5100502219445141196}
   - component: {fileID: 8915552214105227555}
   - component: {fileID: 6334343909984226750}
-  m_Layer: 0
-  m_Name: Unit
+  m_Layer: 8
+  m_Name: UnitSheep
   m_TagString: Sheep
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -138,6 +138,9 @@ MonoBehaviour:
   _isNpc: 0
   _movements: 25
   _team: 1
+  _canWalkLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &5100502219445141196
 MonoBehaviour:
   m_ObjectHideFlags: 0

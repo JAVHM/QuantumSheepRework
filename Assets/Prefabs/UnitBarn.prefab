@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 7908028173450461197}
   - component: {fileID: 2887692717482162832}
   - component: {fileID: 903137564615337184}
-  m_Layer: 0
-  m_Name: UnitHome
+  m_Layer: 10
+  m_Name: UnitBarn
   m_TagString: Sheep
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,7 +53,10 @@ MonoBehaviour:
   _sprite: {fileID: 21300000, guid: dd7069e1914066749a6808aa8fcd84cf, type: 3}
   _isNpc: 0
   _movements: 25
-  _team: 1
+  _team: 3
+  _canWalkLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &7908028173450461197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,7 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1731141854709491164}
   - component: {fileID: 8603807547445560395}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
