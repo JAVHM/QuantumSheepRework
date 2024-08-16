@@ -5,6 +5,7 @@ using Nodes.Tiles;
 using Pathfinding._Scripts.Grid;
 using Pathfinding._Scripts.Units;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Pathfinding._Scripts
 {
@@ -16,6 +17,7 @@ namespace Pathfinding._Scripts
 
         public static List<NodeBase> FindPath(NodeBase startNode, NodeBase targetNode)
         {
+            Unit startUnit = startNode._tileUnit;
             var toSearch = new MinHeap<NodeBase>();
             toSearch.Add(startNode);
             var processed = new HashSet<NodeBase>();
@@ -42,7 +44,7 @@ namespace Pathfinding._Scripts
                     return path;
                 }
 
-                foreach (var neighbor in current.Neighbors.Where(t => t._isWalkable && t._tileUnit == null && !processed.Contains(t)))
+                foreach (var neighbor in current.Neighbors.Where(t => t._isWalkable && t._tileUnit == null && (startUnit._canWalkLayerMask == (startUnit._canWalkLayerMask | (1 << t.gameObject.layer))) && !processed.Contains(t)))
                 {
                     var inSearch = toSearch.Contains(neighbor);
 
@@ -68,6 +70,7 @@ namespace Pathfinding._Scripts
 
         public static List<NodeBase> MarkReachableNodes(NodeBase startNode, int maxCost)
         {
+            Unit startUnit = startNode._tileUnit;
             var toSearch = new SortedSet<(float cost, NodeBase node)>(Comparer<(float cost, NodeBase node)>.Create((a, b) =>
                 a.cost == b.cost ? a.node.GetHashCode().CompareTo(b.node.GetHashCode()) : a.cost.CompareTo(b.cost)));
             var processed = new HashSet<NodeBase>();
@@ -89,7 +92,7 @@ namespace Pathfinding._Scripts
                 reachableNodes.Add(current);
 
                 Debug.Log(current.Neighbors.Where(t => t._isWalkable && t._tileUnit == null));
-                foreach (var neighbor in current.Neighbors.Where(t => t._isWalkable && t._tileUnit == null))
+                foreach (var neighbor in current.Neighbors.Where(t => t._isWalkable && (startUnit._canWalkLayerMask == (startUnit._canWalkLayerMask | (1 << t.gameObject.layer))) && t._tileUnit == null))
                 {
                     var costToNeighbor = currentCost + neighbor._tileWalkValue;
 
@@ -148,6 +151,7 @@ namespace Pathfinding._Scripts
 
         public static void MarkReachableNodesInFourDirections(NodeBase startNode, int maxSteps)
         {
+            Unit startUnit = startNode._tileUnit;
             var directions = new List<Vector2>
             {
                 new Vector2(0, 1),  // Up
@@ -173,7 +177,7 @@ namespace Pathfinding._Scripts
                     var nextPos = current.Coords.Pos + direction;
                     var neighbor = GetNeighborAtPosition(nextPos);
 
-                    if (neighbor != null && neighbor._isWalkable && neighbor._tileUnit == null && !processed.Contains(neighbor))
+                    if (neighbor != null && neighbor._isWalkable && neighbor._tileUnit == null && (startUnit._canWalkLayerMask == (startUnit._canWalkLayerMask | (1 << neighbor.gameObject.layer))) && !processed.Contains(neighbor))
                     {
                         neighbor.SetColor(Color.red);
                         processed.Add(neighbor);
@@ -188,14 +192,15 @@ namespace Pathfinding._Scripts
             return GridManager.Instance.GetTileAtPosition(position);
         }
 
-        public static (NodeBase target, List<NodeBase> path, List<int> costs) FindNearestEnemyNode(NodeBase startNode, Unit[] units, int team)
+        public static (NodeBase target, List<NodeBase> path, List<int> costs) FindNearestEnemyNode(NodeBase startNode, Unit[] units, UnitType unitType)
         {
+            Unit startUnit = startNode._tileUnit;
             NodeBase targetNode = null;
             float minDistance = Mathf.Infinity;
 
             foreach (Unit unit in units)
             {
-                if(unit != startNode._tileUnit && unit._team != startNode._tileUnit._team && unit != null)
+                if(unit != startNode._tileUnit && startUnit.CanAttackUnit(unit._unitType) && unit != null)
                 {
                     //Debug.Log(unit.transform.position);
                     float distance = Vector3.Distance(startNode.gameObject.transform.position, unit.transform.position);
@@ -250,7 +255,7 @@ namespace Pathfinding._Scripts
                     return (targetNode, path, acumCosts);
                 }
 
-                foreach (var neighbor in current.Neighbors.Where(t => (t._isWalkable && t._tileUnit == null && !processed.Contains(t)) || t == targetNode))
+                foreach (var neighbor in current.Neighbors.Where(t => (t._isWalkable && t._tileUnit == null && (startUnit._canWalkLayerMask == (startUnit._canWalkLayerMask | (1 << t.gameObject.layer))) && !processed.Contains(t)) || t == targetNode))
                 {
                     var inSearch = toSearch.Contains(neighbor);
 

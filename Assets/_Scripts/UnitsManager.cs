@@ -30,7 +30,7 @@ public class UnitsManager : MonoBehaviour
             if (playerUnits.Count != 0)
             {
                 NodeBase node = unit._actualNode;
-                (NodeBase targetNode, List<NodeBase> path, var costs) = Pathfinding._Scripts.Pathfinding.FindNearestEnemyNode(node, units, unit._team);
+                (NodeBase targetNode, List<NodeBase> path, var costs) = Pathfinding._Scripts.Pathfinding.FindNearestEnemyNode(node, units, unit._unitType);
                 if (path != null)
                 {
                     if (path.Count > 0)
@@ -40,7 +40,8 @@ public class UnitsManager : MonoBehaviour
                         // yield return new WaitForSeconds(0.25f);
                         if (costs[costs.Count - 1] <= unit._movements)
                         {
-                            path[path.Count - path.Count]._tileUnit.GetComponent<Health>().TakeDamage(10);
+                            if (unit._canAttack && CanAttackUnit(unit, targetNode._tileUnit._unitType))
+                                path[path.Count - path.Count]._tileUnit.GetComponent<Health>().TakeDamage(10);
                             yield return new WaitForSeconds(0.01f);
                             path[path.Count - path.Count].NodeIsMoved();
                         }
@@ -60,7 +61,8 @@ public class UnitsManager : MonoBehaviour
                     }
                     else
                     {
-                        targetNode._tileUnit.GetComponent<Health>().TakeDamage(10);
+                        if(unit._canAttack && CanAttackUnit(unit, targetNode._tileUnit._unitType))
+                            targetNode._tileUnit.GetComponent<Health>().TakeDamage(10);
                     }
                 }
             }
@@ -93,5 +95,10 @@ public class UnitsManager : MonoBehaviour
         {
             Debug.LogWarning("The GameObject to be destroyed was not found in the list.");
         }
+    }
+
+    public bool CanAttackUnit(Unit baseUnit, UnitType unitType)
+    {
+        return (baseUnit._canAttackEnums & unitType) == unitType;
     }
 }

@@ -67,7 +67,7 @@ namespace Pathfinding._Scripts.Grid
                 instanceUnit.Init(unit._sprite);
                 randomNode._tileUnit = instanceUnit;
                 instanceUnit._actualNode = randomNode;
-                if (instanceUnit._team == 1)
+                if (instanceUnit._unitType == UnitType.Sheep)
                     UnitsManager.Instance.playerUnits.Add(instanceUnit);
                 else
                     UnitsManager.Instance.npcUnits.Add(instanceUnit);
@@ -107,7 +107,7 @@ namespace Pathfinding._Scripts.Grid
 
                 if (path != null && path.Count > 0)
                 {
-                    if (_currentUnit._team == 1)
+                    if (_currentUnit._unitType == UnitType.Sheep)
                         TeleportUnit();
                     else
                         StartCoroutine(MoveUnitAlongPath(path));
@@ -119,6 +119,7 @@ namespace Pathfinding._Scripts.Grid
 
         private void TileTeleported(NodeBase nodeBase)
         {
+            print("a");
             if(nodeBase != null && nodeBase._isWalkable)
             {
                 _goalNode = nodeBase;

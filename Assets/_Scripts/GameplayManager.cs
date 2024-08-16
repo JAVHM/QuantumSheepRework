@@ -43,7 +43,7 @@ public class GameplayManager : MonoBehaviour
                 Mathf.Round(currentDraggable.transform.position.z)
             );
 
-        Collider2D collider = Physics2D.OverlapPoint(roundedPosition, 9);
+        Collider2D collider = Physics2D.OverlapPoint(roundedPosition);
         currentDraggable.transform.position = roundedPosition;
 
         CardSO cardSO = currentDraggable.GetComponent<DraggableObjectScript>().cardData;
@@ -51,13 +51,15 @@ public class GameplayManager : MonoBehaviour
         {
             Debug.Log("Ya hay un objeto en la posición: " + roundedPosition);
             NodeBase currentNode = collider.gameObject.GetComponent<NodeBase>();
-            if (currentNode._tileUnit != null && currentNode._tileUnit._team == 1)
+            if (currentNode._tileUnit != null && currentNode._tileUnit._unitType == UnitType.Sheep)
             {
+                print("start teleport 1");
                 GridManager.Instance._currentNode = currentNode;
                 NodeBase goalNode = FindTile(currentNode.Coords.Pos, cardSO);
                 GridManager.Instance._goalNode = goalNode;
                 if(goalNode != null && goalNode._tileUnit == null)
                 {
+                    print("start teleport 2");
                     GridManager.Instance._currentUnit = currentNode._tileUnit;
                     goalNode.NodeIsTeleported();
                 }
@@ -105,7 +107,6 @@ public class GameplayManager : MonoBehaviour
         // Si se encuentra un objeto en esa posición
         if (hitCollider != null)
         {
-            Debug.Log("Objeto encontrado: " + hitCollider.gameObject.name);
             if (hitCollider.gameObject.GetComponent<NodeBase>() != null)
                 return hitCollider.gameObject.GetComponent<NodeBase>();
         }

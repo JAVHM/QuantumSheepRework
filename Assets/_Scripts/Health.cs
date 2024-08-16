@@ -41,7 +41,7 @@ public class Health : MonoBehaviour
     // Method to check if the player is dead
     private void Die()
     {
-        if(GetComponent<Unit>()._team == 1)
+        if(GetComponent<Unit>()._unitType == UnitType.Sheep)
             UnitsManager.Instance.RemoveAndDestroyPlayerUnits(this.GetComponent<Unit>());
         else
             UnitsManager.Instance.RemoveAndDestroyNpcUnits(this.GetComponent<Unit>());

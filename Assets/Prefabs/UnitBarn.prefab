@@ -10,9 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4803761557017219083}
   - component: {fileID: 6961466158614075022}
-  - component: {fileID: 7908028173450461197}
-  - component: {fileID: 2887692717482162832}
-  - component: {fileID: 903137564615337184}
   m_Layer: 10
   m_Name: UnitBarn
   m_TagString: Sheep
@@ -53,49 +50,12 @@ MonoBehaviour:
   _sprite: {fileID: 21300000, guid: dd7069e1914066749a6808aa8fcd84cf, type: 3}
   _isNpc: 0
   _movements: 25
-  _team: 3
+  _unitType: 4
   _canWalkLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
---- !u!114 &7908028173450461197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1285438635172840001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b68f76c0b70e6c741b36a65ee207ddec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2887692717482162832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1285438635172840001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e0b5828a1c40e7418afc49a33e8cc41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 10
-  textDamage: {fileID: 2079591330381387107, guid: 48cc3a83ee6ab8a479db1b5704badf37, type: 3}
---- !u!114 &903137564615337184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1285438635172840001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bfa854270f98e34e8d2c070a179a3d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabRange: {fileID: 7164066624150095490, guid: 3269b85533da226409f58b78f8ec96ca, type: 3}
+    m_Bits: 0
+  _canAttack: 0
+  _canAttackEnums: 0
 --- !u!1 &5421951773637100196
 GameObject:
   m_ObjectHideFlags: 0
