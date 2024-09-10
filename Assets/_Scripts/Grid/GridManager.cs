@@ -119,8 +119,15 @@ namespace Pathfinding._Scripts.Grid
 
         private void TileTeleported(NodeBase nodeBase)
         {
-            print("a");
-            if(nodeBase != null && nodeBase._isWalkable)
+            if (nodeBase._tileUnit != null && nodeBase._tileUnit._unitType == UnitType.Barn)
+            {
+                _isUnitMoving = true;
+
+                TeleportUnitOnlyVisual();
+
+                UnitsManager.Instance.SheepEnterBarn(nodeBase._tileUnit);
+            }
+            else if(nodeBase != null && nodeBase._isWalkable)
             {
                 _goalNode = nodeBase;
 
@@ -160,6 +167,13 @@ namespace Pathfinding._Scripts.Grid
             _currentNode = _goalNode;
             _currentNode._tileUnit = _currentUnit;
             _currentNode._tileUnit._actualNode = _currentNode;
+            _isUnitMoving = false;
+        }
+
+        public void TeleportUnitOnlyVisual()
+        {
+            _currentUnit.transform.position = _goalNode.transform.position;
+            _currentNode._tileUnit = null;
             _isUnitMoving = false;
         }
 

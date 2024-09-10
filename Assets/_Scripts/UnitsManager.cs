@@ -1,6 +1,7 @@
 using Nodes.Tiles;
 using Pathfinding._Scripts.Grid;
 using Pathfinding._Scripts.Units;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,12 +12,30 @@ public class UnitsManager : MonoBehaviour
     public List<Unit> playerUnits = new List<Unit>();
     public List<Unit> npcUnits = new List<Unit>();
 
+    public static event Action<Unit> OnSheepEnterBarn;
+
     void Awake() => Instance = this;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) && !GridManager.Instance._isNpcTurn && playerUnits.Count != 0)
         {
             StartCoroutine(Test());
+        }
+    }
+
+    public void SheepEnterBarn(Unit unit)
+    {
+        print("SheepEnterBarn");
+        print(unit._unitType);
+        if (playerUnits.Contains(unit))
+        {
+            playerUnits.Remove(unit);
+            Debug.Log($"Sheep removed. Remaining player units: {playerUnits.Count}");
+        }
+
+        if (OnSheepEnterBarn != null)
+        {
+            OnSheepEnterBarn(unit);
         }
     }
 

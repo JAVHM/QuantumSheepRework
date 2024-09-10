@@ -2,6 +2,7 @@ using Nodes.Tiles;
 using Pathfinding._Scripts.Grid;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameplayManager : MonoBehaviour
@@ -49,19 +50,20 @@ public class GameplayManager : MonoBehaviour
         CardSO cardSO = currentDraggable.GetComponent<DraggableObjectScript>().cardData;
         if (collider != null)
         {
-            Debug.Log("Ya hay un objeto en la posición: " + roundedPosition);
             NodeBase currentNode = collider.gameObject.GetComponent<NodeBase>();
             if (currentNode._tileUnit != null && currentNode._tileUnit._unitType == UnitType.Sheep)
             {
-                print("start teleport 1");
                 GridManager.Instance._currentNode = currentNode;
                 NodeBase goalNode = FindTile(currentNode.Coords.Pos, cardSO);
                 GridManager.Instance._goalNode = goalNode;
-                if(goalNode != null && goalNode._tileUnit == null)
+                if(goalNode != null)
                 {
-                    print("start teleport 2");
                     GridManager.Instance._currentUnit = currentNode._tileUnit;
                     goalNode.NodeIsTeleported();
+                    if (goalNode._tileUnit._unitType == UnitType.Barn)
+                    {
+                        UnitsManager.Instance.SheepEnterBarn(goalNode._tileUnit);
+                    }
                 }
             }
         }

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {x: 1, y: 0}
   multiplierMin: 3
-  multiplierMax: 4
+  multiplierMax: 3
   sprite: {fileID: 21300000, guid: 9dc69653505939a489e5c39587b2ede7, type: 3}
