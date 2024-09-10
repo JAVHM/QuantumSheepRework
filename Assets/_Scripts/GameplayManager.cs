@@ -1,8 +1,8 @@
 using Nodes.Tiles;
 using Pathfinding._Scripts.Grid;
+using Pathfinding._Scripts.Units;
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameplayManager : MonoBehaviour
@@ -44,7 +44,8 @@ public class GameplayManager : MonoBehaviour
                 Mathf.Round(currentDraggable.transform.position.z)
             );
 
-        Collider2D collider = Physics2D.OverlapPoint(roundedPosition);
+        LayerMask sheepLayer = LayerMask.GetMask("Tile");
+        Collider2D collider = Physics2D.OverlapPoint(roundedPosition, sheepLayer);
         currentDraggable.transform.position = roundedPosition;
 
         CardSO cardSO = currentDraggable.GetComponent<DraggableObjectScript>().cardData;
@@ -59,10 +60,11 @@ public class GameplayManager : MonoBehaviour
                 if(goalNode != null)
                 {
                     GridManager.Instance._currentUnit = currentNode._tileUnit;
+                    Unit tempUnit = currentNode._tileUnit;
                     goalNode.NodeIsTeleported();
                     if (goalNode._tileUnit._unitType == UnitType.Barn)
                     {
-                        UnitsManager.Instance.SheepEnterBarn(goalNode._tileUnit);
+                        UnitsManager.Instance.SheepEnterBarn(tempUnit);
                     }
                 }
             }

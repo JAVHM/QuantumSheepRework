@@ -25,8 +25,7 @@ public class UnitsManager : MonoBehaviour
 
     public void SheepEnterBarn(Unit unit)
     {
-        print("SheepEnterBarn");
-        print(unit._unitType);
+        // unit.gameObject.SetActive(false);
         if (playerUnits.Contains(unit))
         {
             playerUnits.Remove(unit);

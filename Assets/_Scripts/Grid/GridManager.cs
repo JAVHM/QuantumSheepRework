@@ -124,8 +124,6 @@ namespace Pathfinding._Scripts.Grid
                 _isUnitMoving = true;
 
                 TeleportUnitOnlyVisual();
-
-                UnitsManager.Instance.SheepEnterBarn(nodeBase._tileUnit);
             }
             else if(nodeBase != null && nodeBase._isWalkable)
             {
