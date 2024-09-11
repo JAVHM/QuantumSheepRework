@@ -30,6 +30,8 @@ public class UnitsManager : MonoBehaviour
         {
             playerUnits.Remove(unit);
             Debug.Log($"Sheep removed. Remaining player units: {playerUnits.Count}");
+            if (playerUnits.Count == 0)
+                GameManager.Instance.NextScene();
         }
 
         if (OnSheepEnterBarn != null)
