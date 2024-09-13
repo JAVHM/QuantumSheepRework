@@ -78,10 +78,16 @@ namespace Pathfinding._Scripts.Grid
         {
             foreach (Unit ally in _customAllyUnits)
             {
+                NodeBase tile = GetTileAtPosition(ally.gameObject.transform.position);
+                ally._actualNode = tile;
+                tile._tileUnit = ally;
                 UnitsManager.Instance.playerUnits.Add(ally);
             }
             foreach (Unit enemy in _customEnemyUnits)
             {
+                NodeBase tile = GetTileAtPosition(enemy.gameObject.transform.position);
+                enemy._actualNode = tile;
+                tile._tileUnit = enemy;
                 UnitsManager.Instance.npcUnits.Add(enemy);
             }
         }
