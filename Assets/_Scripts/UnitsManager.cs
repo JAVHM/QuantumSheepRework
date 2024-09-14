@@ -60,6 +60,7 @@ public class UnitsManager : MonoBehaviour
                         // yield return new WaitForSeconds(0.25f);
                         if (costs[costs.Count - 1] <= unit._movements)
                         {
+                            print(targetNode._tileUnit._unitType);
                             if (unit._canAttack && CanAttackUnit(unit, targetNode._tileUnit._unitType))
                                 path[path.Count - path.Count]._tileUnit.GetComponent<Health>().TakeDamage(10);
                             yield return new WaitForSeconds(0.01f);

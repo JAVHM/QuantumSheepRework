@@ -8,6 +8,7 @@ TagManager:
   - Wolf
   - Tile
   - Stable
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Wolf
   - Barn
   - Tile
-  - 
+  - Obstacle
   - 
   - 
   - 

@@ -6,7 +6,8 @@ public enum UnitType
 {
     Sheep = 1 << 0, // 1
     Wolf = 1 << 1,  // 2
-    Barn = 1 << 2   // 4
+    Barn = 1 << 2,   // 4
+    Obstacle = 1 << 3   // 6
 }
 
 
