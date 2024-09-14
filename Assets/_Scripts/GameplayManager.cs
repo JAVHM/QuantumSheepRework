@@ -57,7 +57,7 @@ public class GameplayManager : MonoBehaviour
                 GridManager.Instance._currentNode = currentNode;
                 NodeBase goalNode = FindTile(currentNode.Coords.Pos, cardSO);
                 GridManager.Instance._goalNode = goalNode;
-                if(goalNode != null)
+                if (CanUnitMoveToNode(currentNode._tileUnit, goalNode))
                 {
                     GridManager.Instance._currentUnit = currentNode._tileUnit;
                     Unit tempUnit = currentNode._tileUnit;
@@ -116,5 +116,23 @@ public class GameplayManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public bool CanUnitMoveToNode(Unit currentUnit, NodeBase goalNode)
+    {
+        // Verifica si el goalNode y su tileUnit no pertenecen a los layers permitidos
+        if(goalNode._tileUnit != null)
+        {
+            print(goalNode._tileUnit.gameObject.layer);
+            print(goalNode != null);
+            print(goalNode._tileUnit == null);
+            print(goalNode._tileUnit != null);
+            print((1 << goalNode._tileUnit.gameObject.layer & currentUnit._canWalkLayerMask) == 0);
+        }
+
+        return goalNode != null &&
+            (goalNode._tileUnit == null ||
+             ((goalNode._tileUnit != null) &&
+              (1 << goalNode._tileUnit.gameObject.layer & currentUnit._canWalkLayerMask) != 0));
     }
 }
