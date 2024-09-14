@@ -34,6 +34,7 @@ namespace Pathfinding._Scripts.Grid
         public GameObject _customGrid;
         public Unit[] _customAllyUnits;
         public Unit[] _customEnemyUnits;
+        public Unit[] _extraUnits;
 
         void Awake() => Instance = this;
 
@@ -89,6 +90,12 @@ namespace Pathfinding._Scripts.Grid
                 enemy._actualNode = tile;
                 tile._tileUnit = enemy;
                 UnitsManager.Instance.npcUnits.Add(enemy);
+            }
+            foreach (Unit extra in _extraUnits)
+            {
+                NodeBase tile = GetTileAtPosition(extra.gameObject.transform.position);
+                extra._actualNode = tile;
+                tile._tileUnit = extra;
             }
         }
 
