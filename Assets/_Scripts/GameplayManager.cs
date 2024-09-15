@@ -118,18 +118,9 @@ public class GameplayManager : MonoBehaviour
         return null;
     }
 
+    // Verifica si el goalNode y su tileUnit no pertenecen a los layers permitidos
     public bool CanUnitMoveToNode(Unit currentUnit, NodeBase goalNode)
     {
-        // Verifica si el goalNode y su tileUnit no pertenecen a los layers permitidos
-        if(goalNode._tileUnit != null)
-        {
-            print(goalNode._tileUnit.gameObject.layer);
-            print(goalNode != null);
-            print(goalNode._tileUnit == null);
-            print(goalNode._tileUnit != null);
-            print((1 << goalNode._tileUnit.gameObject.layer & currentUnit._canWalkLayerMask) == 0);
-        }
-
         return goalNode != null &&
             (goalNode._tileUnit == null ||
              ((goalNode._tileUnit != null) &&
