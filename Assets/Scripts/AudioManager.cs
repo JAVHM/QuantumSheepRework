@@ -58,7 +58,7 @@ public class AudioManager : MonoBehaviour
         actualBGM = Array.Find(bgmSounds, bgmSounds => bgmSounds.name == name);
         if (actualBGM == null)
         {
-            Debug.LogError("No se encontró el audio!");
+            Debug.LogError("No se encontró el audio! " + name);
             return;
         }
         actualBGM.source.Play();

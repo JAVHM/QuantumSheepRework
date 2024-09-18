@@ -42,7 +42,10 @@ public class Health : MonoBehaviour
     private void Die()
     {
         if(GetComponent<Unit>()._unitType == UnitType.Sheep)
+        {
+            GameplayManager.instance.GameOver();
             UnitsManager.Instance.RemoveAndDestroyPlayerUnits(this.GetComponent<Unit>());
+        }
         else
             UnitsManager.Instance.RemoveAndDestroyNpcUnits(this.GetComponent<Unit>());
     }

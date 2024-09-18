@@ -103,6 +103,8 @@ namespace Pathfinding._Scripts.Grid
         {
             NodeBase.OnMoveTile -= TileMoved;
             NodeBase.OnTeleportTile -= TileTeleported;
+            NodeBase.OnSelectTile -= TileMapped;
+            NodeBase.OnUnselectTile -= TileUnselected;
         }
 
         private void TileMoved(NodeBase nodeBase)

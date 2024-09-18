@@ -45,6 +45,7 @@ public class DragControllerScript : MonoBehaviour
             {
                 GameplayManager.instance.Check(currentDraggable);
                 GameplayManager.instance.MouseUp();
+                UnitsManager.Instance.MoveNPCs();
                 objectSpawner.SpawnObject();
                 objectSpawner.ReturnCardToAvailable(cardData);
                 Destroy(currentDraggable);

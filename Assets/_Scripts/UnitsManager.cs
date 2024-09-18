@@ -15,17 +15,10 @@ public class UnitsManager : MonoBehaviour
     public static event Action<Unit> OnSheepEnterBarn;
 
     void Awake() => Instance = this;
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && !GridManager.Instance._isNpcTurn && playerUnits.Count != 0)
-        {
-            StartCoroutine(Test());
-        }
-    }
 
     public void SheepEnterBarn(Unit unit)
     {
-        // unit.gameObject.SetActive(false);
+        unit.gameObject.SetActive(false);
         if (playerUnits.Contains(unit))
         {
             playerUnits.Remove(unit);
@@ -40,7 +33,12 @@ public class UnitsManager : MonoBehaviour
         }
     }
 
-    IEnumerator Test()
+    public void MoveNPCs()
+    {
+        StartCoroutine(MoveNPCsCoroutine());
+    }
+
+    IEnumerator MoveNPCsCoroutine()
     {
         GridManager.Instance._isNpcTurn = true;
         Unit[] units = FindObjectsOfType<Unit>();
@@ -55,7 +53,7 @@ public class UnitsManager : MonoBehaviour
                 {
                     if (path.Count > 0)
                     {
-                        yield return new WaitForSeconds(0.01f);
+                        yield return new WaitForSeconds(0.02f);
                         node.NodeIsSelected();
                         // yield return new WaitForSeconds(0.25f);
                         if (costs[costs.Count - 1] <= unit._movements)

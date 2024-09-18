@@ -14,9 +14,13 @@ public class GameplayManager : MonoBehaviour
     public static Action<CardSO> onMouseDown;
     public static Action onMouseUp;
 
+    public PauseMenu _pauseMenuUI;
+    private PauseMenu _pauseMenuInstance;
+
     private void Awake()
     {
         instance = this;
+        _pauseMenuInstance = Instantiate(_pauseMenuUI);
         _gridManager = GridManager.Instance;
     }
 
@@ -125,5 +129,10 @@ public class GameplayManager : MonoBehaviour
             (goalNode._tileUnit == null ||
              ((goalNode._tileUnit != null) &&
               (1 << goalNode._tileUnit.gameObject.layer & currentUnit._canWalkLayerMask) != 0));
+    }
+
+    public void GameOver()
+    {
+        _pauseMenuInstance.GameOver();
     }
 }
