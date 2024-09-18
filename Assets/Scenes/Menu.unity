@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2614,13 +2613,13 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 3fd684ad24c0e544097799202b5984dc, type: 3}
     volume: 0.5
     pitch: 1
-    loop: 0
+    loop: 1
     source: {fileID: 0}
   - name: Main Theme Test
     clip: {fileID: 8300000, guid: 65f6ed11260090645afb8c70f8b57138, type: 3}
     volume: 0.5
     pitch: 1
-    loop: 0
+    loop: 1
     source: {fileID: 0}
   sounds: []
 --- !u!81 &1309359100

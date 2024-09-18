@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Left-3to4
   m_EditorClassIdentifier: 
   movement: {x: -1, y: 0}
-  multiplierMin: 3
-  multiplierMax: 3
+  multiplierMin: 4
+  multiplierMax: 4
   sprite: {fileID: 21300000, guid: f7eb24f56d22a9a41b466f0a17b0453a, type: 3}
