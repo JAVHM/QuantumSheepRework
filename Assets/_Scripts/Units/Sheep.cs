@@ -22,31 +22,34 @@ public class Sheep : MonoBehaviour
 
     public void ShowRange(CardSO card)
     {
-        for (int mov = card.multiplierMin; mov <= card.multiplierMax; mov++)
+        if (this.isActiveAndEnabled)
         {
-            if (card.movement.x != 0)
+            for (int mov = card.multiplierMin; mov <= card.multiplierMax; mov++)
             {
-                Vector3 newPosition = transform.position + new Vector3(mov * card.movement.x, 0, 0f);
-                NodeBase node = GameplayManager.instance.FindTile(newPosition);
-                if (node != null && node._isWalkable == true)
+                if (card.movement.x != 0)
                 {
-                    GameObject g = Instantiate(prefabRange, newPosition, Quaternion.identity);
-                    telePoints.Add(g);
+                    Vector3 newPosition = transform.position + new Vector3(mov * card.movement.x, 0, 0f);
+                    NodeBase node = GameplayManager.instance.FindTile(newPosition);
+                    if (node != null && node._isWalkable == true)
+                    {
+                        GameObject g = Instantiate(prefabRange, newPosition, Quaternion.identity);
+                        telePoints.Add(g);
+                    }
                 }
-            }
 
-        }
-        for (int mov = card.multiplierMin; mov <= card.multiplierMax; mov++)
-        {
-            if (card.movement.y != 0)
+            }
+            for (int mov = card.multiplierMin; mov <= card.multiplierMax; mov++)
             {
-                Vector3 newPosition = transform.position + new Vector3(0, mov * card.movement.y, 0f);
-                NodeBase node = GameplayManager.instance.FindTile(newPosition);
-                if (node != null && node._isWalkable == true)
+                if (card.movement.y != 0)
                 {
-                    GameObject g = Instantiate(prefabRange, newPosition, Quaternion.identity);
-                    telePoints.Add(g);
-                }  
+                    Vector3 newPosition = transform.position + new Vector3(0, mov * card.movement.y, 0f);
+                    NodeBase node = GameplayManager.instance.FindTile(newPosition);
+                    if (node != null && node._isWalkable == true)
+                    {
+                        GameObject g = Instantiate(prefabRange, newPosition, Quaternion.identity);
+                        telePoints.Add(g);
+                    }
+                }
             }
         }
     }
