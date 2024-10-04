@@ -56,7 +56,7 @@ public class GameplayManager : MonoBehaviour
         if (collider != null)
         {
             NodeBase currentNode = collider.gameObject.GetComponent<NodeBase>();
-            if (currentNode._tileUnit != null && currentNode._tileUnit._unitType == UnitType.Sheep)
+            if (currentNode._tileUnit != null && (currentNode._tileUnit._unitType == UnitType.Sheep || currentNode._tileUnit._unitType == UnitType.Dog))
             {
                 GridManager.Instance._currentNode = currentNode;
                 NodeBase goalNode = FindTile(currentNode.Coords.Pos, cardSO);
