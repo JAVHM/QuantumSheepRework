@@ -54,8 +54,6 @@ public class GameplayManager : MonoBehaviour
         if (currentNode != null && currentNode._tileUnit == null)
             return true;
 
-        print("current node: " + currentNode._tileUnit);
-
         if (IsUnitValid(currentNode._tileUnit._unitType))
         {
             return HandleValidUnit(currentNode, cardSO);
