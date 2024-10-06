@@ -1,5 +1,6 @@
 using Nodes.Tiles;
 using Pathfinding._Scripts.Grid;
+using System;
 using UnityEngine;
 
 public class DragControllerScript : MonoBehaviour
@@ -43,13 +44,16 @@ public class DragControllerScript : MonoBehaviour
 
             if (currentDraggable != null)
             {
-                GameplayManager.instance.Check(currentDraggable);
+                bool isOnTile = GameplayManager.instance.Check(currentDraggable);
                 GameplayManager.instance.MouseUp();
-                UnitsManager.Instance.MoveNPCs();
-                objectSpawner.SpawnObject();
-                objectSpawner.ReturnCardToAvailable(cardData);
-                Destroy(currentDraggable);
-                Destroy(this.gameObject);
+                if (isOnTile)
+                {
+                    UnitsManager.Instance.MoveNPCs();
+                    objectSpawner.SpawnObject();
+                    objectSpawner.ReturnCardToAvailable(cardData);
+                    Destroy(this.gameObject);
+                }
+                Destroy(currentDraggable);  
                 currentDraggable = null;
             }
         }

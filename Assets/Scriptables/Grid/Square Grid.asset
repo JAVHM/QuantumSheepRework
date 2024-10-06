@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Square Grid
   m_EditorClassIdentifier: 
   _gridWidth: 21
-  _gridHeight: 15
+  _gridHeight: 5
   nodeBasePrefabs:
   - {fileID: 1263727174166914258, guid: 060835d03b849954587adde059cef48d, type: 3}
   _obstacleWeight: 0

@@ -1,5 +1,4 @@
 using Nodes.Tiles;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,34 +21,24 @@ public class Sheep : MonoBehaviour
 
     public void ShowRange(CardSO card)
     {
-        if (this.isActiveAndEnabled)
-        {
-            for (int mov = card.multiplierMin; mov <= card.multiplierMax; mov++)
-            {
-                if (card.movement.x != 0)
-                {
-                    Vector3 newPosition = transform.position + new Vector3(mov * card.movement.x, 0, 0f);
-                    NodeBase node = GameplayManager.instance.FindTile(newPosition);
-                    if (node != null && node._isWalkable == true)
-                    {
-                        GameObject g = Instantiate(prefabRange, newPosition, Quaternion.identity);
-                        telePoints.Add(g);
-                    }
-                }
+        if (!this.isActiveAndEnabled) return;
 
-            }
-            for (int mov = card.multiplierMin; mov <= card.multiplierMax; mov++)
+        CheckMovement(card, card.movement.x, Vector3.right);
+        CheckMovement(card, card.movement.y, Vector3.up);
+    }
+
+    private void CheckMovement(CardSO card, float axisValue, Vector3 direction)
+    {
+        if (axisValue == 0) return;
+
+        for (int mov = card.multiplierMin; mov <= card.multiplierMax; mov++)
+        {
+            Vector3 newPosition = transform.position + direction * (mov * axisValue);
+            NodeBase node = GameplayManager.instance.FindTile(newPosition);
+
+            if (node != null && node._isWalkable)
             {
-                if (card.movement.y != 0)
-                {
-                    Vector3 newPosition = transform.position + new Vector3(0, mov * card.movement.y, 0f);
-                    NodeBase node = GameplayManager.instance.FindTile(newPosition);
-                    if (node != null && node._isWalkable == true)
-                    {
-                        GameObject g = Instantiate(prefabRange, newPosition, Quaternion.identity);
-                        telePoints.Add(g);
-                    }
-                }
+                SetPreviewInstance(newPosition);
             }
         }
     }
@@ -62,5 +51,16 @@ public class Sheep : MonoBehaviour
         }
 
         telePoints.Clear();
+    }
+
+    void SetPreviewInstance(Vector3 newPosition)
+    {
+        GameObject g = Instantiate(prefabRange, newPosition, Quaternion.identity);
+        SpriteRenderer newSpriteRenderer = g.GetComponent<SpriteRenderer>();
+        newSpriteRenderer.sprite = GetComponentInChildren<SpriteRenderer>().sprite;
+        Color newColor = newSpriteRenderer.color;
+        newColor.a = 100f / 255f;
+        newSpriteRenderer.color = newColor;
+        telePoints.Add(g);
     }
 }

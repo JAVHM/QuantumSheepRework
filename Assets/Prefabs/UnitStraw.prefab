@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3129563752241960935}
   - component: {fileID: 5361572524227989154}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 67df60be6be42424686ea685b5096205, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -95,9 +95,9 @@ GameObject:
   - component: {fileID: 3961178529642789450}
   - component: {fileID: 2395936140775700993}
   - component: {fileID: 4506646318402059778}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: UnitStraw
-  m_TagString: Sheep
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -135,7 +135,7 @@ MonoBehaviour:
   _sprite: {fileID: 21300000, guid: 67df60be6be42424686ea685b5096205, type: 3}
   _isNpc: 0
   _movements: 25
-  _unitType: 1
+  _unitType: 8
   _canWalkLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295

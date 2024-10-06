@@ -17,6 +17,8 @@ public class GameplayManager : MonoBehaviour
     public PauseMenu _pauseMenuUI;
     private PauseMenu _pauseMenuInstance;
 
+    private UnitType validUnits = UnitType.Sheep | UnitType.Dog;
+
     private void Awake()
     {
         instance = this;
@@ -40,40 +42,75 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    public void Check(GameObject currentDraggable)
+    public bool Check(GameObject currentDraggable)
     {
-        Vector3 roundedPosition = new Vector3(
-                Mathf.Round(currentDraggable.transform.position.x),
-                Mathf.Round(currentDraggable.transform.position.y),
-                Mathf.Round(currentDraggable.transform.position.z)
-            );
-
-        LayerMask sheepLayer = LayerMask.GetMask("Tile");
-        Collider2D collider = Physics2D.OverlapPoint(roundedPosition, sheepLayer);
+        Vector3 roundedPosition = RoundPosition(currentDraggable.transform.position);
         currentDraggable.transform.position = roundedPosition;
-
         CardSO cardSO = currentDraggable.GetComponent<DraggableObjectScript>().cardData;
+
+        NodeBase currentNode = GetNodeAtPosition(roundedPosition);
+        if (currentNode == null)
+            return false;
+        if (currentNode != null && currentNode._tileUnit == null)
+            return true;
+
+        print("current node: " + currentNode._tileUnit);
+
+        if (IsUnitValid(currentNode._tileUnit._unitType))
+        {
+            return HandleValidUnit(currentNode, cardSO);
+        }
+
+        return true;
+    }
+
+    private Vector3 RoundPosition(Vector3 position)
+    {
+        return new Vector3(
+            Mathf.Round(position.x),
+            Mathf.Round(position.y),
+            Mathf.Round(position.z)
+        );
+    }
+
+    private NodeBase GetNodeAtPosition(Vector3 position)
+    {
+        Collider2D collider = Physics2D.OverlapPoint(position, LayerMask.GetMask("Tile"));
         if (collider != null)
         {
-            NodeBase currentNode = collider.gameObject.GetComponent<NodeBase>();
-            if (currentNode._tileUnit != null && (currentNode._tileUnit._unitType == UnitType.Sheep || currentNode._tileUnit._unitType == UnitType.Dog))
-            {
-                GridManager.Instance._currentNode = currentNode;
-                NodeBase goalNode = FindTile(currentNode.Coords.Pos, cardSO);
-                GridManager.Instance._goalNode = goalNode;
-                if (CanUnitMoveToNode(currentNode._tileUnit, goalNode))
-                {
-                    GridManager.Instance._currentUnit = currentNode._tileUnit;
-                    Unit tempUnit = currentNode._tileUnit;
-                    goalNode.NodeIsTeleported();
-                    if (goalNode._tileUnit._unitType == UnitType.Barn)
-                    {
-                        UnitsManager.Instance.SheepEnterBarn(tempUnit);
-                    }
-                }
-            }
+            return collider.gameObject.GetComponent<NodeBase>();
         }
+        return null;
     }
+
+    private bool IsUnitValid(UnitType unitType)
+    {
+        return (unitType & validUnits) != 0;
+    }
+
+    private bool HandleValidUnit(NodeBase currentNode, CardSO cardSO)
+    {
+        GridManager.Instance._currentNode = currentNode;
+        NodeBase goalNode = FindTile(currentNode.Coords.Pos, cardSO);
+        GridManager.Instance._goalNode = goalNode;
+
+        if (CanUnitMoveToNode(currentNode._tileUnit, goalNode))
+        {
+            GridManager.Instance._currentUnit = currentNode._tileUnit;
+            Unit tempUnit = currentNode._tileUnit;
+            goalNode.NodeIsTeleported();
+
+            if (goalNode._tileUnit._unitType == UnitType.Barn)
+            {
+                UnitsManager.Instance.SheepEnterBarn(tempUnit);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
 
     public NodeBase FindTile(Vector2 originPos, CardSO card)
     {
