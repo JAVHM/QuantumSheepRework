@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 3532941762002492506}
   - component: {fileID: 1673228366425709402}
   - component: {fileID: 386593305349724077}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: UnitDog
-  m_TagString: Sheep
+  m_TagString: Dog
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +108,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7090261781175570200}
   - component: {fileID: 8762127958590178684}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}

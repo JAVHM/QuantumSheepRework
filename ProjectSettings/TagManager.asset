@@ -9,6 +9,7 @@ TagManager:
   - Tile
   - Stable
   - Obstacle
+  - Dog
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Barn
   - Tile
   - Obstacle
-  - 
+  - Dog
   - 
   - 
   - 

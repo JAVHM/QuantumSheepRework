@@ -4,6 +4,7 @@ using Pathfinding._Scripts.Units;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UnitsManager : MonoBehaviour
@@ -19,12 +20,16 @@ public class UnitsManager : MonoBehaviour
     public void SheepEnterBarn(Unit unit)
     {
         unit.gameObject.SetActive(false);
+
         if (playerUnits.Contains(unit))
         {
             playerUnits.Remove(unit);
             Debug.Log($"Sheep removed. Remaining player units: {playerUnits.Count}");
-            if (playerUnits.Count == 0)
+
+            if (!playerUnits.Any(u => u.gameObject.CompareTag("Sheep")))
+            {
                 GameManager.Instance.NextScene();
+            }
         }
 
         if (OnSheepEnterBarn != null)

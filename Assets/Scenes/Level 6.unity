@@ -41062,7 +41062,7 @@ GameObject:
   - component: {fileID: 1037905209}
   m_Layer: 8
   m_Name: UnitDog (3)
-  m_TagString: Sheep
+  m_TagString: Dog
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89311,6 +89311,10 @@ PrefabInstance:
     - target: {fileID: 1182916481453971627, guid: b5d5388c41c940f46a8d4db2a3bf4d8e, type: 3}
       propertyPath: m_Name
       value: UnitDog
+      objectReference: {fileID: 0}
+    - target: {fileID: 1182916481453971627, guid: b5d5388c41c940f46a8d4db2a3bf4d8e, type: 3}
+      propertyPath: m_TagString
+      value: Dog
       objectReference: {fileID: 0}
     - target: {fileID: 7699459092091135660, guid: b5d5388c41c940f46a8d4db2a3bf4d8e, type: 3}
       propertyPath: m_LocalPosition.x
