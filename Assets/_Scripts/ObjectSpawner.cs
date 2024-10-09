@@ -11,11 +11,10 @@ public class ObjectSpawner : MonoBehaviour
     public Vector2 gizmoLineLength = new Vector2(0, -5f);
     public CardSO[] cards;
     public CardManager cardManager;
+    public LevelManager levelManager;
 
     private void Start()
     {
-        // Inicializar la lista de cartas disponibles en el CardManager
-        cardManager.InitializeCards(cards);
         StartCoroutine(SpawnObjects());
     }
 
@@ -32,7 +31,6 @@ public class ObjectSpawner : MonoBehaviour
     {
         GameObject obj = Instantiate(prefab, transform.position, Quaternion.identity);
 
-        // Seleccionar una carta aleatoria desde CardManager
         CardSO selectedCard = cardManager.GetRandomCard();
 
         if (selectedCard != null)

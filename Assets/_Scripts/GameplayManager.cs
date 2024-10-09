@@ -13,10 +13,14 @@ public class GameplayManager : MonoBehaviour
 
     public static Action<CardSO> onMouseDown;
     public static Action onMouseUp;
+    public static Action onUnitMove;
+
+    public int dayCicleLength = 0;
 
     public PauseMenu _pauseMenuUI;
     private PauseMenu _pauseMenuInstance;
-
+    public LevelUI _levelUI;
+    
     private UnitType validUnits = UnitType.Sheep | UnitType.Dog;
 
     private void Awake()
@@ -26,21 +30,6 @@ public class GameplayManager : MonoBehaviour
         _gridManager = GridManager.Instance;
     }
 
-    public void MouseDown(CardSO card)
-    {
-        if (onMouseDown != null)
-        {
-            onMouseDown(card);
-        }
-    }
-
-    public void MouseUp()
-    {
-        if (onMouseUp != null)
-        {
-            onMouseUp();
-        }
-    }
 
     public bool Check(GameObject currentDraggable)
     {

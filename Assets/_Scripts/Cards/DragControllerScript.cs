@@ -31,7 +31,7 @@ public class DragControllerScript : MonoBehaviour
         if (hit.collider != null && hit.collider.gameObject == this.gameObject)
         {
             CreateDraggableObject();
-            GameplayManager.instance.MouseDown(cardData);
+            GameplayManager.onMouseDown.Invoke(cardData);
             isDragging = true;
         }
     }
@@ -45,10 +45,10 @@ public class DragControllerScript : MonoBehaviour
             if (currentDraggable != null)
             {
                 bool isOnTile = GameplayManager.instance.Check(currentDraggable);
-                GameplayManager.instance.MouseUp();
+                GameplayManager.onMouseUp.Invoke();
                 if (isOnTile)
                 {
-                    UnitsManager.Instance.MoveNPCs();
+                    GameplayManager.onUnitMove.Invoke();
                     objectSpawner.SpawnObject();
                     objectSpawner.ReturnCardToAvailable(cardData);
                     Destroy(this.gameObject);

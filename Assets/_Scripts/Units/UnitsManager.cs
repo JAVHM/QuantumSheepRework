@@ -17,6 +17,16 @@ public class UnitsManager : MonoBehaviour
 
     void Awake() => Instance = this;
 
+    public void Start()
+    {
+        GameplayManager.onUnitMove += MoveNPCs;
+    }
+
+    public void OnDestroy()
+    {
+        GameplayManager.onUnitMove -= MoveNPCs;
+    }
+
     public void SheepEnterBarn(Unit unit)
     {
         unit.gameObject.SetActive(false);
