@@ -8,7 +8,6 @@ public class LevelUI : MonoBehaviour
 
     public void SetTimeText(int time)
     {
-        print("SetTimeText" + time);
         _timeText.text = time.ToString();
     }
 

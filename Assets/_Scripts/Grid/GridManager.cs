@@ -234,7 +234,6 @@ namespace Pathfinding._Scripts.Grid
             }
             if (_selectCenterNode != nodeBase)
             {
-                print("New node");
                 ResetSelectableNodes();
                 _selectCenterNode = nodeBase;
                 selectableNodes = Pathfinding.MarkNodesInRange(nodeBase, 3);
@@ -269,6 +268,32 @@ namespace Pathfinding._Scripts.Grid
             {
                 if (tile.Value.Connection == null) continue;
                 Gizmos.DrawLine((Vector3)tile.Key + new Vector3(0, 0, -1), (Vector3)tile.Value.Connection.Coords.Pos + new Vector3(0, 0, -1));
+            }
+        }
+
+        public void MoveUnitToEnemy(Unit unitToMove)
+        {
+            var allyUnitsList = new List<Unit>(_customAllyUnits);
+            var enemyUnitsList = new List<Unit>(_customEnemyUnits);
+
+            if (allyUnitsList.Remove(unitToMove))
+            {
+                enemyUnitsList.Add(unitToMove);
+                _customAllyUnits = allyUnitsList.ToArray();
+                _customEnemyUnits = enemyUnitsList.ToArray();
+            }
+        }
+
+        public void MoveUnitToAlly(Unit unitToMove)
+        {
+            var allyUnitsList = new List<Unit>(_customAllyUnits);
+            var enemyUnitsList = new List<Unit>(_customEnemyUnits);
+
+            if (enemyUnitsList.Remove(unitToMove))
+            {
+                allyUnitsList.Add(unitToMove);
+                _customAllyUnits = allyUnitsList.ToArray();
+                _customEnemyUnits = enemyUnitsList.ToArray();
             }
         }
     }

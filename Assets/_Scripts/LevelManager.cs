@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class LevelManager : MonoBehaviour
     public static LevelManager _instance;
     public LevelUI _levelUI;
     private LevelUI _instanceLevelUI;
+
+    public Action onChangeDaycycle;
 
     private void Awake()
     {
@@ -53,11 +56,13 @@ public class LevelManager : MonoBehaviour
                 {
                     _currentCycle = DayCycle.Night;
                     _instanceLevelUI.SetGameIlumination(_currentCycle);
+                    onChangeDaycycle.Invoke();
                 }
                 else
                 {
                     _currentCycle = DayCycle.Day;
                     _instanceLevelUI.SetGameIlumination(_currentCycle);
+                    onChangeDaycycle.Invoke();
                 }
             }
         }

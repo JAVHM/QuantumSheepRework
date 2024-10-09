@@ -60,10 +60,12 @@ public class UnitsManager : MonoBehaviour
 
         foreach (Unit unit in npcUnits)
         {
+            print(unit.gameObject.name);
             if (playerUnits.Count != 0)
             {
                 NodeBase node = unit._actualNode;
                 (NodeBase targetNode, List<NodeBase> path, var costs) = Pathfinding._Scripts.Pathfinding.FindNearestEnemyNode(node, units, unit._unitType);
+                print(targetNode.Coords.Pos);
                 if (path != null)
                 {
                     if (path.Count > 0)
@@ -134,5 +136,21 @@ public class UnitsManager : MonoBehaviour
     public bool CanAttackUnit(Unit baseUnit, UnitType unitType)
     {
         return (baseUnit._canAttackEnums & unitType) == unitType;
+    }
+
+    public void MoveUnitToNPC(Unit unitToMove)
+    {
+        if (playerUnits.Remove(unitToMove))
+        {
+            npcUnits.Add(unitToMove);
+        }
+    }
+
+    public void MoveUnitToPlayer(Unit unitToMove)
+    {
+        if (npcUnits.Remove(unitToMove))
+        {
+            playerUnits.Add(unitToMove);
+        }
     }
 }
