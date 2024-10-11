@@ -20,11 +20,13 @@ public class UnitsManager : MonoBehaviour
     public void Start()
     {
         GameplayManager.onUnitMove += MoveNPCs;
+        LevelManager._instance.onChangeDaycycle += MoveNPCs2;
     }
 
     public void OnDestroy()
     {
         GameplayManager.onUnitMove -= MoveNPCs;
+        LevelManager._instance.onChangeDaycycle -= MoveNPCs2;
     }
 
     public void SheepEnterBarn(Unit unit)
@@ -60,52 +62,112 @@ public class UnitsManager : MonoBehaviour
 
         foreach (Unit unit in npcUnits)
         {
-            print(unit.gameObject.name);
-            if (playerUnits.Count != 0)
+            if (playerUnits.Count == 0)
+                continue;
+
+            NodeBase node = unit._actualNode;
+            (NodeBase targetNode, List<NodeBase> path, var costs) = Pathfinding._Scripts.Pathfinding.FindNearestEnemyNode(node, units, unit._unitType);
+
+            if (path == null || path.Count == 0)
             {
-                NodeBase node = unit._actualNode;
-                (NodeBase targetNode, List<NodeBase> path, var costs) = Pathfinding._Scripts.Pathfinding.FindNearestEnemyNode(node, units, unit._unitType);
-                print(targetNode.Coords.Pos);
-                if (path != null)
+                if (unit._canAttack && CanAttackUnit(unit, targetNode._tileUnit._unitType))
                 {
-                    if (path.Count > 0)
-                    {
-                        yield return new WaitForSeconds(0.02f);
-                        node.NodeIsSelected();
-                        // yield return new WaitForSeconds(0.25f);
-                        if (costs[costs.Count - 1] <= unit._movements)
-                        {
-                            print(targetNode._tileUnit._unitType);
-                            if (unit._canAttack && CanAttackUnit(unit, targetNode._tileUnit._unitType))
-                                path[path.Count - path.Count]._tileUnit.GetComponent<Health>().TakeDamage(10);
-                            yield return new WaitForSeconds(0.01f);
-                            path[path.Count - path.Count].NodeIsMoved();
-                        }
-                            
-                        else
-                        {
-                            int index = 0;
-                            foreach (int cost in costs)
-                            {
-                                // print(cost + " > " + unit._movements + "index: " + (index + 1));
-                                if (cost > unit._movements)
-                                    break;
-                                index++;
-                            }
-                            path[path.Count - index].NodeIsMoved();
-                        }
-                    }
-                    else
-                    {
-                        if(unit._canAttack && CanAttackUnit(unit, targetNode._tileUnit._unitType))
-                            targetNode._tileUnit.GetComponent<Health>().TakeDamage(10);
-                    }
+                    targetNode._tileUnit.GetComponent<Health>().TakeDamage(10);
                 }
+                continue;
+            }
+
+            yield return new WaitForSeconds(0.02f);
+            node.NodeIsSelected();
+
+            if (costs[costs.Count - 1] <= unit._movements)
+            {
+                if (unit._canAttack && CanAttackUnit(unit, targetNode._tileUnit._unitType))
+                {
+                    path[0]._tileUnit.GetComponent<Health>().TakeDamage(10);
+                }
+
+                yield return new WaitForSeconds(0.01f);
+                path[0].NodeIsMoved();
+            }
+            else
+            {
+                int index = 0;
+                while (index < costs.Count && costs[index] <= unit._movements)
+                {
+                    index++;
+                }
+
+                path[path.Count - index].NodeIsMoved();
             }
         }
+
         GridManager.Instance._isNpcTurn = false;
         yield return null;
     }
+
+    public void MoveNPCs2()
+    {
+        StartCoroutine(MoveNPCsCoroutine2());
+    }
+
+    IEnumerator MoveNPCsCoroutine2()
+    {
+        yield return new WaitForSeconds(0.1f);
+        GridManager.Instance._isNpcTurn = true;
+        Unit[] units = FindObjectsOfType<Unit>();
+
+        foreach (Unit unit in npcUnits)
+        {
+            if (unit._unitType != UnitType.Wolf)
+            {
+                continue;
+            }
+            if (playerUnits.Count == 0)
+                continue;
+
+            NodeBase node = unit._actualNode;
+            (NodeBase targetNode, List<NodeBase> path, var costs) = Pathfinding._Scripts.Pathfinding.FindNearestEnemyNode(node, units, unit._unitType);
+
+            if (path == null || path.Count == 0)
+            {
+                if (unit._canAttack && CanAttackUnit(unit, targetNode._tileUnit._unitType))
+                {
+                    yield return new WaitForSeconds(0.25f);
+                    targetNode._tileUnit.GetComponent<Health>().TakeDamage(10);
+                }
+                continue;
+            }
+
+            yield return new WaitForSeconds(0.02f);
+            node.NodeIsSelected();
+
+            if (costs[costs.Count - 1] <= unit._movements)
+            {
+                if (unit._canAttack && CanAttackUnit(unit, targetNode._tileUnit._unitType))
+                {
+                    path[0]._tileUnit.GetComponent<Health>().TakeDamage(10);
+                }
+
+                yield return new WaitForSeconds(0.01f);
+                path[0].NodeIsMoved();
+            }
+            else
+            {
+                int index = 0;
+                while (index < costs.Count && costs[index] <= unit._movements)
+                {
+                    index++;
+                }
+
+                path[path.Count - index].NodeIsMoved();
+            }
+        }
+
+        GridManager.Instance._isNpcTurn = false;
+        yield return null;
+    }
+
 
     public void RemoveAndDestroyNpcUnits(Unit go)
     {

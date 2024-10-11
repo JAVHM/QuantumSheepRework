@@ -56,19 +56,27 @@ public class LevelManager : MonoBehaviour
                 {
                     _currentCycle = DayCycle.Night;
                     _instanceLevelUI.SetGameIlumination(_currentCycle);
-                    onChangeDaycycle.Invoke();
+                    ChangeDayCyle();
                 }
                 else
                 {
                     _currentCycle = DayCycle.Day;
                     _instanceLevelUI.SetGameIlumination(_currentCycle);
-                    onChangeDaycycle.Invoke();
+                    ChangeDayCyle();
                 }
             }
         }
         else
         {
             _instanceLevelUI.SetTimeText();
+        }
+    }
+
+    void ChangeDayCyle()
+    {
+        if (onChangeDaycycle != null)
+        {
+            onChangeDaycycle.Invoke();
         }
     }
 }
