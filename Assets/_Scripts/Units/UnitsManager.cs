@@ -57,6 +57,7 @@ public class UnitsManager : MonoBehaviour
 
     IEnumerator MoveNPCsCoroutine()
     {
+        yield return new WaitForSeconds(0.15f);
         GridManager.Instance._isNpcTurn = true;
         Unit[] units = FindObjectsOfType<Unit>();
 
@@ -67,11 +68,16 @@ public class UnitsManager : MonoBehaviour
 
             NodeBase node = unit._actualNode;
             (NodeBase targetNode, List<NodeBase> path, var costs) = Pathfinding._Scripts.Pathfinding.FindNearestEnemyNode(node, units, unit._unitType);
-
+            if (targetNode == null)
+            {
+                continue;
+            }
             if (path == null || path.Count == 0)
             {
+                
                 if (unit._canAttack && CanAttackUnit(unit, targetNode._tileUnit._unitType))
                 {
+                    yield return new WaitForSeconds(0.25f);
                     targetNode._tileUnit.GetComponent<Health>().TakeDamage(10);
                 }
                 continue;
@@ -84,6 +90,7 @@ public class UnitsManager : MonoBehaviour
             {
                 if (unit._canAttack && CanAttackUnit(unit, targetNode._tileUnit._unitType))
                 {
+                    yield return new WaitForSeconds(0.25f);
                     path[0]._tileUnit.GetComponent<Health>().TakeDamage(10);
                 }
 
@@ -113,7 +120,7 @@ public class UnitsManager : MonoBehaviour
 
     IEnumerator MoveNPCsCoroutine2()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
         GridManager.Instance._isNpcTurn = true;
         Unit[] units = FindObjectsOfType<Unit>();
 
@@ -128,9 +135,13 @@ public class UnitsManager : MonoBehaviour
 
             NodeBase node = unit._actualNode;
             (NodeBase targetNode, List<NodeBase> path, var costs) = Pathfinding._Scripts.Pathfinding.FindNearestEnemyNode(node, units, unit._unitType);
-
+            if (targetNode == null)
+            {
+                continue;
+            }
             if (path == null || path.Count == 0)
             {
+
                 if (unit._canAttack && CanAttackUnit(unit, targetNode._tileUnit._unitType))
                 {
                     yield return new WaitForSeconds(0.25f);
@@ -146,6 +157,7 @@ public class UnitsManager : MonoBehaviour
             {
                 if (unit._canAttack && CanAttackUnit(unit, targetNode._tileUnit._unitType))
                 {
+                    yield return new WaitForSeconds(0.25f);
                     path[0]._tileUnit.GetComponent<Health>().TakeDamage(10);
                 }
 
