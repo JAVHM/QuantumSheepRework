@@ -8,7 +8,8 @@ public enum UnitType
     Wolf = 1 << 1,  // 2
     Barn = 1 << 2,   // 4
     Obstacle = 1 << 3,   // 6
-    Dog = 1 << 4   // 8
+    Dog = 1 << 4,   // 8
+    WereWolf = 1 << 5,   // 10
 }
 
 

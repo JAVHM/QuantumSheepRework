@@ -34,9 +34,9 @@ public class WereWolf : MonoBehaviour
         {
             status = Werewolfstatus.werewolf;
             GetComponentInChildren<SpriteRenderer>().sprite = _wereWolfSprite;
-            this.gameObject.tag = "Wolf";
-            this.gameObject.layer = 9;
-            _unit._unitType = UnitType.Wolf;
+            this.gameObject.tag = "WereWolf";
+            this.gameObject.layer = 14;
+            _unit._unitType = UnitType.WereWolf;
             UnitsManager.Instance.MoveUnitToNPC(_unit);
         }
         else
