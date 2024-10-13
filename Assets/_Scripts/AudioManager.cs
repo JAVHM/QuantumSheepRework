@@ -74,7 +74,7 @@ public class AudioManager : MonoBehaviour
     }
     public void updateBGValume(float volume)
     {
-        print("updateBGValume");
+        //print("updateBGValume");
         bgMusicVolume = volume;
         actualBGM.source.volume = volume;
     }
