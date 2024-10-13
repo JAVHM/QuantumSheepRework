@@ -117,6 +117,7 @@ namespace Pathfinding._Scripts
             var processed = new HashSet<NodeBase>();
             var reachableNodes = new List<NodeBase>();
             var nodeCosts = new Dictionary<NodeBase, float> { { startNode, 0 } };
+            var startUnit = startNode._tileUnit;
 
             toSearch.Add((0, startNode));
             processed.Add(startNode);
@@ -130,7 +131,7 @@ namespace Pathfinding._Scripts
 
                 reachableNodes.Add(current);
 
-                foreach (var neighbor in current.Neighbors.Where(t => t._isWalkable && t._tileUnit == null))
+                foreach (var neighbor in current.Neighbors.Where(t => (t._isWalkable && t._tileUnit == null && (startUnit._canWalkLayerMask == (startUnit._canWalkLayerMask | (1 << t.gameObject.layer))) && !processed.Contains(t))))
                 {
                     var costToNeighbor = currentCost + neighbor._tileWalkValue;
 
@@ -196,87 +197,98 @@ namespace Pathfinding._Scripts
         {
             Unit startUnit = startNode._tileUnit;
             NodeBase targetNode = null;
-            float minDistance = Mathf.Infinity;
+            List<Unit> validUnits = new List<Unit>();
 
+            // Primero, obtenemos una lista de unidades que pueden ser atacadas y calculamos sus distancias
             foreach (Unit unit in units)
             {
-                if(unit != startNode._tileUnit && startUnit.CanAttackUnit(unit._unitType) && unit != null)
+                if (unit != startNode._tileUnit && startUnit.CanAttackUnit(unit._unitType) && unit != null)
                 {
-                    //Debug.Log(unit.transform.position);
                     float distance = Vector3.Distance(startNode.gameObject.transform.position, unit.transform.position);
-                    if (distance < minDistance)
-                    {
-                        targetNode = unit._actualNode;
-                        minDistance = distance;
-                    }
+                    validUnits.Add(unit);
                 }
             }
 
-            var toSearch = new List<NodeBase>() { startNode };
-            var processed = new List<NodeBase>();
+            // Ordenamos las unidades por distancia ascendente
+            validUnits = validUnits.OrderBy(unit => Vector3.Distance(startNode.gameObject.transform.position, unit.transform.position)).ToList();
 
-            while (toSearch.Any())
+            foreach (var unit in validUnits)
             {
-                var current = toSearch[0];
-                foreach (var t in toSearch)
-                    if (t.F < current.F || t.F == current.F && t.H < current.H) current = t;
+                targetNode = unit._actualNode;
 
-                processed.Add(current);
-                toSearch.Remove(current);
+                var toSearch = new List<NodeBase>() { startNode };
+                var processed = new List<NodeBase>();
 
-                current.SetColor(ClosedColor);
-
-                if (current == targetNode)
+                while (toSearch.Any())
                 {
-                    var currentPathTile = targetNode;
-                    var path = new List<NodeBase>();
-                    var costs = new List<int>();
-                    var acumCosts = new List<int>();
-                    var count = 100;
-                    var acumCost = 0;
-                    while (currentPathTile != startNode)
+                    var current = toSearch[0];
+                    foreach (var t in toSearch)
+                        if (t.F < current.F || t.F == current.F && t.H < current.H) current = t;
+
+                    processed.Add(current);
+                    toSearch.Remove(current);
+
+                    current.SetColor(ClosedColor);
+
+                    if (current == targetNode)
                     {
-                        path.Add(currentPathTile);
-                        costs.Add(currentPathTile._tileWalkValue);
-                        currentPathTile = currentPathTile.Connection;
-                        count--;
-                        if (count < 0) throw new Exception();
-                    }
-
-                    costs.Reverse();
-                    foreach(int c in costs)
-                    {
-                        acumCost += c;
-                        acumCosts.Add(acumCost);
-                    }
-
-                    foreach (var tile in path) tile.SetColor(PathColor);
-                    startNode.SetColor(PathColor);
-                    return (targetNode, path, acumCosts);
-                }
-
-                foreach (var neighbor in current.Neighbors.Where(t => (t._isWalkable && t._tileUnit == null && (startUnit._canWalkLayerMask == (startUnit._canWalkLayerMask | (1 << t.gameObject.layer))) && !processed.Contains(t)) || t == targetNode))
-                {
-                    var inSearch = toSearch.Contains(neighbor);
-
-                    var costToNeighbor = current.G + current.GetDistance(neighbor) + current._tileWalkValue * 10;
-
-                    if (!inSearch || costToNeighbor < neighbor.G)
-                    {
-                        neighbor.SetG(costToNeighbor);
-                        neighbor.SetConnection(current);
-
-                        if (!inSearch)
+                        // Se encontró un camino al targetNode más cercano
+                        var currentPathTile = targetNode;
+                        var path = new List<NodeBase>();
+                        var costs = new List<int>();
+                        var acumCosts = new List<int>();
+                        var count = 100;
+                        var acumCost = 0;
+                        while (currentPathTile != startNode)
                         {
-                            neighbor.SetH(neighbor.GetDistance(targetNode));
-                            toSearch.Add(neighbor);
-                            neighbor.SetColor(OpenColor);
+                            path.Add(currentPathTile);
+                            costs.Add(currentPathTile._tileWalkValue);
+                            currentPathTile = currentPathTile.Connection;
+                            count--;
+                            if (count < 0) throw new Exception();
+                        }
+
+                        costs.Reverse();
+                        foreach (int c in costs)
+                        {
+                            acumCost += c;
+                            acumCosts.Add(acumCost);
+                        }
+
+                        foreach (var tile in path) tile.SetColor(PathColor);
+                        startNode.SetColor(PathColor);
+                        return (targetNode, path, acumCosts);
+                    }
+
+                    // Procesar vecinos
+                    foreach (var neighbor in current.Neighbors.Where(t => (t._isWalkable && t._tileUnit == null &&
+                    (startUnit._canWalkLayerMask == (startUnit._canWalkLayerMask | (1 << t.gameObject.layer))) &&
+                    !processed.Contains(t)) || t == targetNode))
+                    {
+                        var inSearch = toSearch.Contains(neighbor);
+
+                        var costToNeighbor = current.G + current.GetDistance(neighbor) + current._tileWalkValue * 10;
+
+                        if (!inSearch || costToNeighbor < neighbor.G)
+                        {
+                            neighbor.SetG(costToNeighbor);
+                            neighbor.SetConnection(current);
+
+                            if (!inSearch)
+                            {
+                                neighbor.SetH(neighbor.GetDistance(targetNode));
+                                toSearch.Add(neighbor);
+                                neighbor.SetColor(OpenColor);
+                            }
                         }
                     }
                 }
             }
+
+            // Si no se encuentra ningún camino para ninguna de las unidades
             return (null, null, null);
         }
+
 
         public static List<NodeBase> MarkNodesInRange(NodeBase startNode, int range)
         {

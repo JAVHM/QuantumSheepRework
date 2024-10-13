@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 public class UnitsManager : MonoBehaviour
@@ -90,7 +91,18 @@ public class UnitsManager : MonoBehaviour
             {
                 if (unit._canAttack && CanAttackUnit(unit, targetNode._tileUnit._unitType))
                 {
-                    yield return new WaitForSeconds(0.25f);
+                    if (costs.Count > 1)
+                    {
+                        int index = 0;
+                        while (index < costs.Count && costs[index] <= unit._movements)
+                        {
+                            index++;
+                        }
+
+                        path[path.Count - index + 1].NodeIsMoved();
+                    }
+                    
+                    yield return new WaitForSeconds(0.2f);
                     path[0]._tileUnit.GetComponent<Health>().TakeDamage(10);
                 }
 
@@ -157,7 +169,18 @@ public class UnitsManager : MonoBehaviour
             {
                 if (unit._canAttack && CanAttackUnit(unit, targetNode._tileUnit._unitType))
                 {
-                    yield return new WaitForSeconds(0.25f);
+                    if (costs.Count > 1)
+                    {
+                        int index = 0;
+                        while (index < costs.Count && costs[index] <= unit._movements)
+                        {
+                            index++;
+                        }
+
+                        path[path.Count - index + 1].NodeIsMoved();
+                    }
+
+                    yield return new WaitForSeconds(0.05f);
                     path[0]._tileUnit.GetComponent<Health>().TakeDamage(10);
                 }
 
