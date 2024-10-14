@@ -85,10 +85,7 @@ public class GameplayManager : MonoBehaviour
         {
             GridManager.Instance._currentUnit = currentNode._tileUnit;
             Unit tempUnit = currentNode._tileUnit;
-            if (goalNode._tileUnit != null && goalNode._tileUnit._unitType == UnitType.Dog2)
-            {
-                currentNode.NodeIsTeleported();
-            }
+
             goalNode.NodeIsTeleported();
 
             if (goalNode._tileUnit._unitType == UnitType.Barn)

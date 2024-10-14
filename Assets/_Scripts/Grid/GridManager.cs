@@ -140,7 +140,21 @@ namespace Pathfinding._Scripts.Grid
 
                 TeleportUnitOnlyVisual();
             }
-            else if (nodeBase != null && nodeBase._isWalkable && nodeBase._tileUnit != null && nodeBase._tileUnit._unitType == UnitType.Dog2)
+            else if (nodeBase != null && nodeBase._tileUnit != null && nodeBase._tileUnit._unitType == UnitType.Dog2)
+            {
+                _goalNode = nodeBase;
+
+                foreach (var t in tiles.Values) t.RevertTile();
+
+                _isUnitMoving = true;
+
+                List<NodeBase> path = Pathfinding.FindPath(_currentNode, _goalNode);
+
+                TeleportSwitchUnits();
+
+                ResetReachebleNodes();
+            }
+            else if (nodeBase != null && nodeBase._tileUnit != null && nodeBase._tileUnit._unitType == UnitType.Sheep)
             {
                 _goalNode = nodeBase;
 
