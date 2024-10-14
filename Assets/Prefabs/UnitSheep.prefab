@@ -140,7 +140,7 @@ MonoBehaviour:
   _unitType: 1
   _canWalkLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 36087
   _canAttack: 0
   _canAttackEnums: 0
 --- !u!114 &5100502219445141196
