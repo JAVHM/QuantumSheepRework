@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5055105179906323731}
   - component: {fileID: 2676649482644788584}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 2421496075349721746}
   - component: {fileID: 1935024103513552091}
   - component: {fileID: 8637016901482801383}
-  m_Layer: 13
+  m_Layer: 15
   m_Name: UnitDog2
   m_TagString: Dog
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ MonoBehaviour:
   _unitType: 64
   _canWalkLayerMask:
     serializedVersion: 2
-    m_Bits: 2295
+    m_Bits: 2551
   _canAttack: 1
   _canAttackEnums: 0
 --- !u!114 &2421496075349721746
