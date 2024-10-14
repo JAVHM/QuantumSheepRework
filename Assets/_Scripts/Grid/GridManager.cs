@@ -140,6 +140,20 @@ namespace Pathfinding._Scripts.Grid
 
                 TeleportUnitOnlyVisual();
             }
+            else if (nodeBase != null && nodeBase._isWalkable && nodeBase._tileUnit != null && nodeBase._tileUnit._unitType == UnitType.Dog2)
+            {
+                _goalNode = nodeBase;
+
+                foreach (var t in tiles.Values) t.RevertTile();
+
+                _isUnitMoving = true;
+
+                List<NodeBase> path = Pathfinding.FindPath(_currentNode, _goalNode);
+
+                TeleportSwitchUnits();
+
+                ResetReachebleNodes();
+            }
             else if(nodeBase != null && nodeBase._isWalkable)
             {
                 _goalNode = nodeBase;
@@ -177,6 +191,18 @@ namespace Pathfinding._Scripts.Grid
         {
             _currentUnit.transform.position = _goalNode.transform.position;
             _currentNode._tileUnit = null;
+            _currentNode = _goalNode;
+            _currentNode._tileUnit = _currentUnit;
+            _currentNode._tileUnit._actualNode = _currentNode;
+            _isUnitMoving = false;
+        }
+
+        public void TeleportSwitchUnits()
+        {
+            var _goalUnit = _goalNode._tileUnit;
+            _currentUnit.transform.position = _goalNode.transform.position;
+            _goalUnit.transform.position = _currentNode.transform.position;
+            _currentNode._tileUnit = _goalUnit;
             _currentNode = _goalNode;
             _currentNode._tileUnit = _currentUnit;
             _currentNode._tileUnit._actualNode = _currentNode;

@@ -10,6 +10,7 @@ public enum UnitType
     Obstacle = 1 << 3,   // 6
     Dog = 1 << 4,   // 8
     WereWolf = 1 << 5,   // 10
+    Dog2 = 1 << 6,   // 12
 }
 
 

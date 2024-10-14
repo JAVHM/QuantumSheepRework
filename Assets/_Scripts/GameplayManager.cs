@@ -21,7 +21,7 @@ public class GameplayManager : MonoBehaviour
     private PauseMenu _pauseMenuInstance;
     public LevelUI _levelUI;
     
-    private UnitType validUnits = UnitType.Sheep | UnitType.Dog;
+    private UnitType validUnits = UnitType.Sheep | UnitType.Dog | UnitType.Dog2;
 
     private void Awake()
     {
@@ -85,6 +85,10 @@ public class GameplayManager : MonoBehaviour
         {
             GridManager.Instance._currentUnit = currentNode._tileUnit;
             Unit tempUnit = currentNode._tileUnit;
+            if (goalNode._tileUnit != null && goalNode._tileUnit._unitType == UnitType.Dog2)
+            {
+                currentNode.NodeIsTeleported();
+            }
             goalNode.NodeIsTeleported();
 
             if (goalNode._tileUnit._unitType == UnitType.Barn)
