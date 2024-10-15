@@ -213,13 +213,21 @@ namespace Pathfinding._Scripts.Grid
 
         public void TeleportSwitchUnits()
         {
-            var _goalUnit = _goalNode._tileUnit;
+            var _goalUnit = _goalNode._tileUnit;  // Get the unit on the goal node.
+
+            // Swap positions between the current unit and the goal unit.
             _currentUnit.transform.position = _goalNode.transform.position;
             _goalUnit.transform.position = _currentNode.transform.position;
+
+            // Update the tile units in the nodes.
             _currentNode._tileUnit = _goalUnit;
-            _currentNode = _goalNode;
-            _currentNode._tileUnit = _currentUnit;
-            _currentNode._tileUnit._actualNode = _currentNode;
+            _goalNode._tileUnit = _currentUnit;
+
+            // Update the actual node reference for both units.
+            _currentUnit._actualNode = _goalNode;
+            _goalUnit._actualNode = _currentNode;
+
+            // Mark the movement as complete.
             _isUnitMoving = false;
         }
 
