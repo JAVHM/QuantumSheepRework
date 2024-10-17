@@ -14,14 +14,16 @@ public class DragControllerScript : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetMouseButtonDown(0) && isDragging)
+            HandleMouseUp();
+
         if (Input.GetMouseButtonDown(0) && Time.timeScale == 1f)
             HandleMouseDown();
 
         if (isDragging)
             DragObject();
 
-        if (Input.GetMouseButtonUp(0))
-            HandleMouseUp();
+        
     }
 
     private void HandleMouseDown()
