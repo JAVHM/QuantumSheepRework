@@ -2,6 +2,7 @@ using Nodes.Tiles;
 using Pathfinding._Scripts.Grid;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DragControllerScript : MonoBehaviour
 {
@@ -23,7 +24,6 @@ public class DragControllerScript : MonoBehaviour
         if (isDragging)
             DragObject();
 
-        
     }
 
     private void HandleMouseDown()
@@ -97,6 +97,16 @@ public class DragControllerScript : MonoBehaviour
     {
         cardData = cardSO;
         objectSpawner = objSpawner;
-        this.gameObject.GetComponent<SpriteRenderer>().sprite = cardData.sprite;
+        this.gameObject.GetComponent<Image>().sprite = cardData.sprite;
+    }
+
+    // Método que se llama cuando el objeto colisiona con otro objeto
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Verificar si el objeto colisionado es el segundo objeto (puedes usar su tag, layer o nombre)
+        if (collision.gameObject.name == "ButtonCard(Clone)") // Reemplaza con el nombre de tu segundo objeto
+        {
+            print("DETECT");
+        }
     }
 }

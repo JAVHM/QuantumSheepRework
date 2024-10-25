@@ -21,6 +21,7 @@ public class Sheep : MonoBehaviour
 
     public void ShowRange(CardSO card)
     {
+        print("Show Range");
         if (!this.isActiveAndEnabled) return;
 
         CheckMovement(card, card.movement.x, Vector3.right);
@@ -45,6 +46,7 @@ public class Sheep : MonoBehaviour
 
     public void DestroyAndClearList()
     {
+        print("DestroyAndClearList");
         foreach (GameObject obj in telePoints)
         {
             Destroy(obj);

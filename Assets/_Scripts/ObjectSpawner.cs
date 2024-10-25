@@ -29,7 +29,8 @@ public class ObjectSpawner : MonoBehaviour
 
     public void SpawnObject()
     {
-        GameObject obj = Instantiate(prefab, transform.position, Quaternion.identity);
+        // Instanciar el objeto y hacer que sea hijo de este GameObject (o de otro objeto padre que definas)
+        GameObject obj = Instantiate(prefab, transform.position, Quaternion.identity, transform);
 
         CardSO selectedCard = cardManager.GetRandomCard();
 
