@@ -5,6 +5,12 @@ using UnityEngine;
 public class CardManager : MonoBehaviour
 {
     public List<CardSO> availableCards;
+    public static CardManager _instance;
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     public CardSO GetRandomCard()
     {

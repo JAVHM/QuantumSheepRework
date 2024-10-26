@@ -10,11 +10,13 @@ public class ObjectSpawner : MonoBehaviour
     public float launchSpeed = 5f;
     public Vector2 gizmoLineLength = new Vector2(0, -5f);
     public CardSO[] cards;
-    public CardManager cardManager;
-    public LevelManager levelManager;
+    private CardManager cardManager;
+    private LevelManager levelManager;
 
     private void Start()
     {
+        cardManager = CardManager._instance;
+        levelManager = LevelManager._instance;
         StartCoroutine(SpawnObjects());
     }
 
