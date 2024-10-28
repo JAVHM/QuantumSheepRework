@@ -10,18 +10,19 @@ public class Sheep : MonoBehaviour
     public void Start()
     {
         GameplayManager.onMouseDown += ShowRange;
+        GameplayManager.onMouseDown2 += ResetShowRange;
         GameplayManager.onMouseUp += DestroyAndClearList;
     }
 
     public void OnDestroy()
     {
         GameplayManager.onMouseDown -= ShowRange;
+        GameplayManager.onMouseDown2 -= ResetShowRange;
         GameplayManager.onMouseUp -= DestroyAndClearList;
     }
 
     public void ShowRange(CardSO card)
     {
-        print("Show Range");
         if (!this.isActiveAndEnabled) return;
 
         CheckMovement(card, card.movement.x, Vector3.right);
@@ -46,7 +47,6 @@ public class Sheep : MonoBehaviour
 
     public void DestroyAndClearList()
     {
-        print("DestroyAndClearList");
         foreach (GameObject obj in telePoints)
         {
             Destroy(obj);
@@ -64,5 +64,11 @@ public class Sheep : MonoBehaviour
         newColor.a = 100f / 255f;
         newSpriteRenderer.color = newColor;
         telePoints.Add(g);
+    }
+
+    private void ResetShowRange(CardSO card)
+    {
+        DestroyAndClearList();
+        ShowRange(card);
     }
 }

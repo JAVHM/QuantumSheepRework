@@ -8,77 +8,50 @@ public class DragControllerScript : MonoBehaviour
 {
     public GameObject draggablePrefab; // Prefab del objeto que se generará y arrastrará
 
-    private GameObject currentDraggable;
-    private bool isDragging = false;
     public CardSO cardData;
     private ObjectSpawner objectSpawner;
 
-    private void Update()
+
+    public (bool, GameObject) HandleMouseDown()
     {
-        if (Input.GetMouseButtonDown(0) && isDragging)
-            HandleMouseUp();
-
-        if (Input.GetMouseButtonDown(0) && Time.timeScale == 1f)
-            HandleMouseDown();
-
-        if (isDragging)
-            DragObject();
-
+        GameplayManager.onMouseDown.Invoke(cardData);
+        GameObject currentDraggable = CreateDraggableObject();
+        return (true, currentDraggable);
     }
 
-    private void HandleMouseDown()
+    public (bool, GameObject) HandleMouseUp(GameObject currentDraggable)
     {
-        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+        bool isOnTile = GameplayManager.instance.Check(currentDraggable);
+        GameplayManager.onMouseUp.Invoke();
 
-        if (hit.collider != null && hit.collider.gameObject == this.gameObject)
+
+        if (isOnTile)
         {
-            CreateDraggableObject();
-            GameplayManager.onMouseDown.Invoke(cardData);
-            isDragging = true;
+            GameplayManager.onUnitMove.Invoke();
+            objectSpawner.SpawnObject();
+            objectSpawner.ReturnCardToAvailable(cardData);
+            Destroy(this.gameObject);
         }
+
+        Destroy(currentDraggable);
+
+        return (false, null);
     }
 
-    private void HandleMouseUp()
+    private GameObject CreateDraggableObject()
     {
-        if (isDragging)
-        {
-            isDragging = false;
+        GameObject currentDraggable = Instantiate(draggablePrefab);
+        currentDraggable.GetComponent<DraggableObjectScript>().DragControllerScript = this;
+        currentDraggable.transform.position = GetMouseWorldPosition();
+        currentDraggable.GetComponent<DraggableObjectScript>().Init(cardData);
+        // AudioManager.instance.Play("take energy");
 
-            if (currentDraggable != null)
-            {
-                bool isOnTile = GameplayManager.instance.Check(currentDraggable);
-                GameplayManager.onMouseUp.Invoke();
-                if (isOnTile)
-                {
-                    GameplayManager.onUnitMove.Invoke();
-                    objectSpawner.SpawnObject();
-                    objectSpawner.ReturnCardToAvailable(cardData);
-                    Destroy(this.gameObject);
-                }
-                Destroy(currentDraggable);  
-                currentDraggable = null;
-            }
-        }
+        return currentDraggable;
     }
 
-    private void CreateDraggableObject()
+    public void DragObject(GameObject currentDraggable)
     {
-        if (draggablePrefab != null)
-        {
-            currentDraggable = Instantiate(draggablePrefab);
-            currentDraggable.GetComponent<DraggableObjectScript>().DragControllerScript = this;
-            currentDraggable.transform.position = GetMouseWorldPosition();
-            currentDraggable.GetComponent<DraggableObjectScript>().Init(cardData);
-            // AudioManager.instance.Play("take energy");
-        }
-    }
-
-    private void DragObject()
-    {
-        if (currentDraggable != null)
-        {
-            currentDraggable.transform.position = GetMouseWorldPosition();
-        }
+        currentDraggable.transform.position = GetMouseWorldPosition();
     }
 
     private Vector3 GetMouseWorldPosition()
@@ -106,7 +79,7 @@ public class DragControllerScript : MonoBehaviour
         // Verificar si el objeto colisionado es el segundo objeto (puedes usar su tag, layer o nombre)
         if (collision.gameObject.name == "ButtonCard(Clone)") // Reemplaza con el nombre de tu segundo objeto
         {
-            print("DETECT");
+            //print("DETECT");
         }
     }
 }

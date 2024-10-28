@@ -12,6 +12,7 @@ public class GameplayManager : MonoBehaviour
     public static GameplayManager instance;
 
     public static Action<CardSO> onMouseDown;
+    public static Action<CardSO> onMouseDown2;
     public static Action onMouseUp;
     public static Action onUnitMove;
 
@@ -123,7 +124,6 @@ public class GameplayManager : MonoBehaviour
             // If a NodeBase is found, return it
             if (hitCollider != null && hitCollider.gameObject.GetComponent<NodeBase>() != null)
             {
-                Debug.Log("Objeto encontrado en la posición: " + hitCollider.gameObject.name);
                 return hitCollider.gameObject.GetComponent<NodeBase>();
             }
         }
