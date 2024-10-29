@@ -87168,7 +87168,7 @@ Transform:
   m_GameObject: {fileID: 897743049}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15, y: 7, z: 0}
+  m_LocalPosition: {x: 14, y: 7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -138189,6 +138189,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 72c2fafebac0fa04c9d0d7259605c43a, type: 2}
   - {fileID: 11400000, guid: 32d1d3423df2cd349a81dac8b1a468d1, type: 2}
   - {fileID: 11400000, guid: 71730083a3f20ed4e85720be7dbffbce, type: 2}
+  _currentDragController: {fileID: 0}
+  _previousDragController: {fileID: 0}
+  currentDraggable: {fileID: 0}
+  execLock: 0
 --- !u!4 &1412662344
 Transform:
   m_ObjectHideFlags: 0
@@ -155691,7 +155695,7 @@ Transform:
   m_GameObject: {fileID: 1604899247}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 7, z: 0}
+  m_LocalPosition: {x: 6, y: 7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -197832,6 +197836,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2395936140775700993, guid: 42d2281cc38c1f6418b959f785e59c2a, type: 3}
+      propertyPath: _renderer
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2991763626821504871, guid: 42d2281cc38c1f6418b959f785e59c2a, type: 3}
       propertyPath: m_Name
       value: UnitStraw (13)

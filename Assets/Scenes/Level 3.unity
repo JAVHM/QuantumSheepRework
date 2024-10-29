@@ -31261,6 +31261,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 32d1d3423df2cd349a81dac8b1a468d1, type: 2}
   - {fileID: 11400000, guid: 71730083a3f20ed4e85720be7dbffbce, type: 2}
   - {fileID: 11400000, guid: 71730083a3f20ed4e85720be7dbffbce, type: 2}
+  _currentDragController: {fileID: 0}
+  _previousDragController: {fileID: 0}
+  currentDraggable: {fileID: 0}
+  execLock: 0
 --- !u!4 &362063582
 Transform:
   m_ObjectHideFlags: 0
@@ -95342,7 +95346,7 @@ PrefabInstance:
     - target: {fileID: 7341151215538218331, guid: 3e2b3382004a71946925a3e0938c28e2, type: 3}
       propertyPath: _customGrid
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 575280102}
     - target: {fileID: 7341151215538218331, guid: 3e2b3382004a71946925a3e0938c28e2, type: 3}
       propertyPath: _isUnitMoving
       value: 0
