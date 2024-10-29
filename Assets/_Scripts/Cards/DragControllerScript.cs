@@ -1,6 +1,7 @@
 using Nodes.Tiles;
 using Pathfinding._Scripts.Grid;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,15 +20,17 @@ public class DragControllerScript : MonoBehaviour
         return (true, currentDraggable);
     }
 
-    public (bool, GameObject) HandleMouseUp(GameObject currentDraggable)
+    public (bool, GameObject) HandleMouseUp(GameObject currentDraggable, Vector3 touchPosition)
     {
-        bool isOnTile = GameplayManager.instance.Check(currentDraggable);
+        bool isOnTile = GameplayManager.instance.Check(currentDraggable, touchPosition);
+        print(isOnTile);
         GameplayManager.onMouseUp.Invoke();
 
 
         if (isOnTile)
         {
             GameplayManager.onUnitMove.Invoke();
+            AudioManager.instance.PlaySfx(new List<string> { "sheep teleport 1", "sheep teleport 2", "sheep teleport 3"});
             objectSpawner.SpawnObject();
             objectSpawner.ReturnCardToAvailable(cardData);
             Destroy(this.gameObject);
@@ -44,7 +47,7 @@ public class DragControllerScript : MonoBehaviour
         currentDraggable.GetComponent<DraggableObjectScript>().DragControllerScript = this;
         currentDraggable.transform.position = GetMouseWorldPosition();
         currentDraggable.GetComponent<DraggableObjectScript>().Init(cardData);
-        // AudioManager.instance.Play("take energy");
+        // AudioManager.instance.PlaySfx("take energy");
 
         return currentDraggable;
     }

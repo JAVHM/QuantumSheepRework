@@ -32,9 +32,10 @@ public class GameplayManager : MonoBehaviour
     }
 
 
-    public bool Check(GameObject currentDraggable)
+    public bool Check(GameObject currentDraggable, Vector3 touchPosition)
     {
-        Vector3 roundedPosition = RoundPosition(currentDraggable.transform.position);
+        print(touchPosition);
+        Vector3 roundedPosition = RoundPosition(touchPosition);
         currentDraggable.transform.position = roundedPosition;
         CardSO cardSO = currentDraggable.GetComponent<DraggableObjectScript>().cardData;
 

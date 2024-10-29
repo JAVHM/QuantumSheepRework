@@ -2,11 +2,12 @@ using UnityEngine;
 using System;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour
 {
-    public Sound[] bgmSounds;
-    public Sound[] sounds;
+    public Sound[] musics;
+    public Sound[] sfxs;
     public static AudioManager instance;
     public static float bgMusicVolume = .5f;
     public static float effectsMusicVolume = .5f;
@@ -21,7 +22,7 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-        foreach (Sound s in bgmSounds)
+        foreach (Sound s in musics)
         {
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
@@ -29,7 +30,7 @@ public class AudioManager : MonoBehaviour
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
         }
-        foreach (Sound s in sounds)
+        foreach (Sound s in sfxs)
         {
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
@@ -40,12 +41,12 @@ public class AudioManager : MonoBehaviour
     }
     private void Start()
     {
-        PlayBGM("Menu Theme Test");
+        PlayMusic("Menu Theme Test");
     }
 
-    public void Play(string name)
+    public void PlaySfx(string name)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = Array.Find(sfxs, sound => sound.name == name);
         if (s == null)
         {
             Debug.LogError("No se encontró el audio!");
@@ -53,9 +54,32 @@ public class AudioManager : MonoBehaviour
         }
         s.source.Play();
     }
-    public void PlayBGM(string name)
+
+    public void PlaySfx(List<string> names)
     {
-        actualBGM = Array.Find(bgmSounds, bgmSounds => bgmSounds.name == name);
+        if (names == null || names.Count == 0)
+        {
+            Debug.LogError("La lista de nombres está vacía o es nula!");
+            return;
+        }
+
+        // Seleccionar aleatoriamente un nombre de la lista
+        string randomName = names[UnityEngine.Random.Range(0, names.Count)];
+
+        // Buscar el sonido con ese nombre
+        Sound s = Array.Find(sfxs, sound => sound.name == randomName);
+        if (s == null)
+        {
+            Debug.LogError($"No se encontró el audio con el nombre {randomName}!");
+            return;
+        }
+
+        s.source.Play();
+    }
+
+    public void PlayMusic(string name)
+    {
+        actualBGM = Array.Find(musics, bgmSounds => bgmSounds.name == name);
         if (actualBGM == null)
         {
             Debug.LogError("No se encontró el audio! " + name);
@@ -68,7 +92,7 @@ public class AudioManager : MonoBehaviour
         if (actualBGM.name != newTheme)
         {
             actualBGM.source.Stop();
-            PlayBGM(newTheme);
+            PlayMusic(newTheme);
             updateBGValume(bgMusicVolume);
         }
     }
@@ -81,7 +105,7 @@ public class AudioManager : MonoBehaviour
     public void updateSfxVolume(float volume)
     {
         effectsMusicVolume = volume;
-        foreach (Sound s in sounds)
+        foreach (Sound s in sfxs)
         {
             s.source.volume = volume;
         }
