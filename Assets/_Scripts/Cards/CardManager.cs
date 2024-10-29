@@ -39,7 +39,6 @@ public class CardManager : MonoBehaviour
 
                 if (dragController != null || isDragging == true)
                 {
-                    print("enter");
                     if (_currentDragController != null && dragController != null)
                         _previousDragController = _currentDragController;
 
@@ -50,7 +49,6 @@ public class CardManager : MonoBehaviour
 
                     if (isDragging == false && _currentDragController != null && execLock == false)  // Verificar que _currentDragController no sea nulo
                     {
-                        print("1");
                         (isDragging, currentDraggable) = _currentDragController.HandleMouseDown();
                         execLock = true;
                     }
@@ -61,15 +59,14 @@ public class CardManager : MonoBehaviour
                         currentDraggable.transform.position = touchPosition;
                         if (_previousDragController != null)
                         {
-                            print("2");
-                            _previousDragController.HandleMouseUp(currentDraggable, touchPosition);
+
+                            _previousDragController.HandleMouseUp(currentDraggable);
                             _previousDragController = null;
                             (isDragging, currentDraggable) = _currentDragController.HandleMouseDown();
                         }
                         else
                         {
-                            print("3");
-                            (isDragging, currentDraggable) = _currentDragController.HandleMouseUp(currentDraggable, touchPosition);
+                            (isDragging, currentDraggable) = _currentDragController.HandleMouseUp(currentDraggable);
                             _currentDragController = null;
                         }
                         execLock = true;
@@ -106,15 +103,13 @@ public class CardManager : MonoBehaviour
                     {
                         if (_previousDragController != null)
                         {
-                            _previousDragController.HandleMouseUp(currentDraggable, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                            _previousDragController.HandleMouseUp(currentDraggable);
                             _previousDragController = null;
                             (isDragging, currentDraggable) = _currentDragController.HandleMouseDown();
-                            //_currentDragController = null;
                         }
                         else
                         {
-                            print("3");
-                            (isDragging, currentDraggable) = _currentDragController.HandleMouseUp(currentDraggable, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                            (isDragging, currentDraggable) = _currentDragController.HandleMouseUp(currentDraggable);
                             _currentDragController = null;
                         }
                         execLock = true;

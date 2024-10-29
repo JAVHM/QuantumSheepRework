@@ -20,10 +20,9 @@ public class DragControllerScript : MonoBehaviour
         return (true, currentDraggable);
     }
 
-    public (bool, GameObject) HandleMouseUp(GameObject currentDraggable, Vector3 touchPosition)
+    public (bool, GameObject) HandleMouseUp(GameObject currentDraggable)
     {
-        bool isOnTile = GameplayManager.instance.Check(currentDraggable, touchPosition);
-        print(isOnTile);
+        bool isOnTile = GameplayManager.instance.Check(currentDraggable);
         GameplayManager.onMouseUp.Invoke();
 
 
