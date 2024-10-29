@@ -51,7 +51,6 @@ public class CardManager : MonoBehaviour
                     if (isDragging == false && _currentDragController != null && execLock == false)  // Verificar que _currentDragController no sea nulo
                     {
                         print("1");
-                        _currentDragController = dragController;
                         (isDragging, currentDraggable) = _currentDragController.HandleMouseDown();
                         execLock = true;
                     }
@@ -59,8 +58,7 @@ public class CardManager : MonoBehaviour
                     //print(isDragging + " | " + (_currentDragController != null) + "|" + (execLock == false));
                     if (isDragging == true && _currentDragController != null && execLock == false)  // Verificar que _currentDragController no sea nulo
                     {
-                        _currentDragController.transform.position = touchPosition;
-                        print(_currentDragController.transform.position);
+                        currentDraggable.transform.position = touchPosition;
                         if (_previousDragController != null)
                         {
                             print("2");
@@ -72,18 +70,62 @@ public class CardManager : MonoBehaviour
                         {
                             print("3");
                             (isDragging, currentDraggable) = _currentDragController.HandleMouseUp(currentDraggable, touchPosition);
-                            Destroy(currentDraggable);
+                            _currentDragController = null;
                         }
                         execLock = true;
                     }
                 }
                 cooldownTimer = cooldownTime;
             }
+        }
+        else if(cooldownTimer <= 0 && Input.GetMouseButtonDown(0))
+        {
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
-            if (isDragging && _currentDragController != null)  // Verificar que _currentDragController no sea nulo
+            if (hit.collider != null)
             {
-                _currentDragController.DragObject(currentDraggable);
+                execLock = false;
+                DragControllerScript dragController = hit.collider.gameObject.GetComponent<DragControllerScript>();
+
+                if (dragController != null || isDragging == true)
+                {
+                    if (_currentDragController != null && dragController != null)
+                        _previousDragController = _currentDragController;
+
+                    if (dragController != null)  // Verificar si dragController no es nulo
+                    {
+                        _currentDragController = dragController;
+                    }
+                    if (isDragging == false && _currentDragController != null && execLock == false)  // Verificar que _currentDragController no sea nulo
+                    {
+                        (isDragging, currentDraggable) = _currentDragController.HandleMouseDown();
+                        execLock = true;
+                    }
+
+                    if (isDragging == true && _currentDragController != null && execLock == false)  // Verificar que _currentDragController no sea nulo
+                    {
+                        if (_previousDragController != null)
+                        {
+                            _previousDragController.HandleMouseUp(currentDraggable, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                            _previousDragController = null;
+                            (isDragging, currentDraggable) = _currentDragController.HandleMouseDown();
+                            //_currentDragController = null;
+                        }
+                        else
+                        {
+                            print("3");
+                            (isDragging, currentDraggable) = _currentDragController.HandleMouseUp(currentDraggable, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                            _currentDragController = null;
+                        }
+                        execLock = true;
+                    }
+                    cooldownTimer = cooldownTime;
+                }
             }
+        }
+        if (isDragging && _currentDragController != null)  // Verificar que _currentDragController no sea nulo
+        {
+            _currentDragController.DragObject(currentDraggable);
         }
     }
 
