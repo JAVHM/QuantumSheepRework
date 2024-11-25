@@ -32,24 +32,38 @@ public class GameplayManager : MonoBehaviour
     }
 
 
-    public bool Check(GameObject currentDraggable)
+    public (bool, bool) Check(GameObject currentDraggable)
     {
         Vector3 roundedPosition = RoundPosition(currentDraggable.transform.position);
         currentDraggable.transform.position = roundedPosition;
         CardSO cardSO = currentDraggable.GetComponent<DraggableObjectScript>().cardData;
 
         NodeBase currentNode = GetNodeAtPosition(roundedPosition);
+        RaycastHit2D hit = Physics2D.Raycast(currentDraggable.transform.position, Vector2.zero);
+
+        if (hit.collider != null)
+        {
+            // Verificar si el objeto tiene un BoxCollider2D
+            if (hit.collider is BoxCollider2D)
+            {
+                if (hit.collider.gameObject.tag == "Trash")
+                {
+                    return (false, true);
+                }
+            }
+        }
+
         if (currentNode == null)
-            return false;
+            return (false, false);
         if (currentNode != null && currentNode._tileUnit == null)
-            return true;
+            return (false, false);
 
         if (IsUnitValid(currentNode._tileUnit._unitType))
         {
             return HandleValidUnit(currentNode, cardSO);
         }
 
-        return true;
+        return (true, false);
     }
 
     private Vector3 RoundPosition(Vector3 position)
@@ -76,7 +90,7 @@ public class GameplayManager : MonoBehaviour
         return (unitType & validUnits) != 0;
     }
 
-    private bool HandleValidUnit(NodeBase currentNode, CardSO cardSO)
+    private (bool, bool) HandleValidUnit(NodeBase currentNode, CardSO cardSO)
     {
         GridManager.Instance._currentNode = currentNode;
         NodeBase goalNode = FindTile(currentNode.Coords.Pos, cardSO);
@@ -89,15 +103,16 @@ public class GameplayManager : MonoBehaviour
 
             goalNode.NodeIsTeleported();
 
+           
             if (goalNode._tileUnit._unitType == UnitType.Barn)
             {
                 UnitsManager.Instance.SheepEnterBarn(tempUnit);
             }
 
-            return true;
+            return (true, false);
         }
 
-        return false;
+        return (false, false);
     }
 
 

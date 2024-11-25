@@ -11,6 +11,7 @@ TagManager:
   - Obstacle
   - Dog
   - WereWolf
+  - Trash
   layers:
   - Default
   - TransparentFX
@@ -28,7 +29,7 @@ TagManager:
   - Dog
   - WereWolf
   - Dog2
-  - 
+  - Trash
   - 
   - 
   - 

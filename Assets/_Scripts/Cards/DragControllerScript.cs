@@ -22,7 +22,7 @@ public class DragControllerScript : MonoBehaviour
 
     public (bool, GameObject) HandleMouseUp(GameObject currentDraggable)
     {
-        bool isOnTile = GameplayManager.instance.Check(currentDraggable);
+        (bool isOnTile, bool isTrashCan) = GameplayManager.instance.Check(currentDraggable);
         GameplayManager.onMouseUp.Invoke();
 
 
@@ -30,6 +30,14 @@ public class DragControllerScript : MonoBehaviour
         {
             GameplayManager.onUnitMove.Invoke();
             AudioManager.instance.PlaySfx(new List<string> { "sheep teleport 1", "sheep teleport 2", "sheep teleport 3"});
+            objectSpawner.SpawnObject();
+            objectSpawner.ReturnCardToAvailable(cardData);
+            Destroy(this.gameObject);
+        }
+
+        if (isTrashCan)
+        {
+            GameplayManager.onUnitMove.Invoke();
             objectSpawner.SpawnObject();
             objectSpawner.ReturnCardToAvailable(cardData);
             Destroy(this.gameObject);
